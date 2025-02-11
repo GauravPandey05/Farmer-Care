@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { auth, db } from "./firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import Login from "./Login";
+import Register from "./Register";
+import Dashboard from "./Dashboard";
 
-function App() {
-  const [count, setCount] = useState(0)
+function AuthHandler() {
+  const [user, setUser] = useState(null);
+  const [profileExists, setProfileExists] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const profileRef = doc(db, "farmers", currentUser.uid);
+        const profileSnap = await getDoc(profileRef);
+        setProfileExists(profileSnap.exists());
+      }
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      setProfileExists(false);
+      navigate("/");
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
+  };
+
+  if (loading) return <h2>Loading...</h2>;
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      {user && (
+        <button onClick={handleSignOut} className="px-4 py-2 bg-red-500 text-white rounded absolute top-4 right-4">
+          Sign Out
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      )}
+      <Routes>
+        <Route path="/" element={user ? <Navigate to={profileExists ? "/dashboard" : "/register"} /> : <Login />} />
+        <Route path="/register" element={user ? <Register user={user} /> : <Navigate to="/" />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <Router>
+      <AuthHandler />
+    </Router>
+  );
+}
