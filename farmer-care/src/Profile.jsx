@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const indianStatesAndUTs = [
   "Lakshadweep", "Delhi", "Puducherry", "Ladakh", "Jammu and Kashmir"
 ];
 
-const Register = ({ user }) => {
+const Profile = ({ user }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -25,8 +25,26 @@ const Register = ({ user }) => {
     isGovtEmployee: false,
     state: "",
   });
-
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      const fetchUserProfile = async () => {
+        setLoading(true);
+        try {
+          const userProfileRef = doc(db, "farmers", user.uid);
+          const docSnap = await getDoc(userProfileRef);
+          if (docSnap.exists()) {
+            setFormData(docSnap.data());
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+        setLoading(false);
+      };
+      fetchUserProfile();
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -50,36 +68,22 @@ const Register = ({ user }) => {
       return;
     }
 
-    const userProfile = {
-      uid: user.uid,
-      name: formData.name,
-      phone: user.phoneNumber || "N/A",
-      landSize: parseFloat(formData.landSize),
-      crops: formData.crops.split(",").map((crop) => crop.trim()),
-      income: parseFloat(formData.income),
-      aadhaar_available: formData.aadhaarAvailable,
-      aadhaar_number: formData.aadhaarAvailable ? formData.aadhaarNumber : null,
-      is_govt_employee: formData.isGovtEmployee,
-      state: formData.state,
-    };
-
     try {
       setLoading(true);
-      await setDoc(doc(db, "farmers", user.uid), userProfile);
-      sessionStorage.setItem("userData", JSON.stringify(userProfile));
+      await setDoc(doc(db, "farmers", user.uid), formData, { merge: true });
+      sessionStorage.setItem("userData", JSON.stringify(formData));
+      alert("Profile updated successfully!");
       navigate("/dashboard");
     } catch (error) {
-      console.error("Error saving profile:", error);
-      alert("Failed to save profile. Try again.");
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Try again.");
     }
     setLoading(false);
   };
 
-  if (!user) return <p className="text-center text-red-500">Loading...</p>;
-
   return (
     <form onSubmit={handleSubmit} className="p-6">
-      <h2 className="text-xl font-bold">Complete Your Profile</h2>
+      <h2 className="text-xl font-bold">Update Your Profile</h2>
 
       <input type="text" name="name" placeholder="Full Name" className="border p-2 rounded w-full my-2"
         value={formData.name} onChange={handleChange} required />
@@ -115,13 +119,11 @@ const Register = ({ user }) => {
         <span>Government Employee</span>
       </label>
 
-      <div className="flex justify-end">
-        <button type="submit" disabled={loading} className="px-4 py-2 bg-blue-500 text-white rounded">
-          {loading ? "Saving..." : "Save"}
-        </button>
-      </div>
+      <button type="submit" disabled={loading} className="px-4 py-2 bg-blue-500 text-white rounded">
+        {loading ? "Updating..." : "Update Profile"}
+      </button>
     </form>
   );
 };
 
-export default Register;
+export default Profile;

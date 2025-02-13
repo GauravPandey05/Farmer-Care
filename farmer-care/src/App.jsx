@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import Login from "./Login";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import LoanSchemes from "./pages/LoanSchemes";
+import CropRecommendations from "./pages/CropRecommendations";
+import GovSchemes from "./pages/GovSchemes";
 import Register from "./Register";
-import Dashboard from "./Dashboard";
+import Profile from "./Profile";
+import "./index.css";
 
-function AuthHandler() {
+function App() {
   const [user, setUser] = useState(null);
-  const [profileExists, setProfileExists] = useState(false);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const profileRef = doc(db, "farmers", currentUser.uid);
         const profileSnap = await getDoc(profileRef);
-        setProfileExists(profileSnap.exists());
+        setUser({
+          ...currentUser,
+          profileExists: profileSnap.exists(),
+        });
+      } else {
+        setUser(null);
       }
-      setUser(currentUser);
       setLoading(false);
     });
 
@@ -31,8 +40,6 @@ function AuthHandler() {
     try {
       await signOut(auth);
       setUser(null);
-      setProfileExists(false);
-      navigate("/");
     } catch (error) {
       console.error("Sign out error:", error);
     }
@@ -41,26 +48,21 @@ function AuthHandler() {
   if (loading) return <h2>Loading...</h2>;
 
   return (
-    <>
-      {user && (
-        <button onClick={handleSignOut} className="px-4 py-2 bg-red-500 text-white rounded absolute top-4 right-4">
-          Sign Out
-        </button>
-      )}
+    <Router>
+      {user && <Navbar onLogout={handleSignOut} />}
       <Routes>
-        <Route path="/" element={user ? <Navigate to={profileExists ? "/dashboard" : "/register"} /> : <Login />} />
+        <Route path="/" element={!user ? <Home /> : <Navigate to={user.profileExists ? "/dashboard" : "/register"} />} />
         <Route path="/register" element={user ? <Register user={user} /> : <Navigate to="/" />} />
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+        <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/" />} />
+        <Route path="/loan-schemes" element={user ? <LoanSchemes /> : <Navigate to="/" />} />
+        <Route path="/crop-recommendations" element={user ? <CropRecommendations /> : <Navigate to="/" />} />
+        <Route path="/gov-schemes" element={user ? <GovSchemes /> : <Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-    </>
-  );
-}
-
-export default function App() {
-  return (
-    <Router>
-      <AuthHandler />
+      <Footer />
     </Router>
   );
 }
+
+export default App;

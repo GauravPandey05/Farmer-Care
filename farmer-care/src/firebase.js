@@ -12,6 +12,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -19,8 +20,6 @@ const db = getFirestore(app);
 enableIndexedDbPersistence(db)
   .then(() => console.log("Offline mode enabled"))
   .catch((err) => console.error("Failed to enable offline persistence:", err));
-
-auth.settings.appVerificationDisabledForTesting = true; // ✅ Add this line to disable reCAPTCHA in dev mode
 
 const setUpRecaptcha = () => {
   if (!window.recaptchaVerifier) {
@@ -31,7 +30,8 @@ const setUpRecaptcha = () => {
     });
     window.recaptchaVerifier.render();
   }
+  return window.recaptchaVerifier;
 };
 
-export { auth, db, signInWithPhoneNumber, setUpRecaptcha };
+export { auth, db, RecaptchaVerifier, signInWithPhoneNumber, setUpRecaptcha };
 export { collection, addDoc, getDoc, doc, updateDoc };
