@@ -25,25 +25,29 @@ const Profile = ({ user }) => {
     isGovtEmployee: false,
     state: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      const fetchUserProfile = async () => {
-        setLoading(true);
-        try {
-          const userProfileRef = doc(db, "farmers", user.uid);
-          const docSnap = await getDoc(userProfileRef);
-          if (docSnap.exists()) {
-            setFormData(docSnap.data());
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
+    if (!user) return;
+    
+    const fetchUserProfile = async () => {
+      try {
+        const userProfileRef = doc(db, "farmers", user.uid);
+        const docSnap = await getDoc(userProfileRef);
+        
+        if (docSnap.exists()) {
+          setFormData(prev => ({
+            ...prev,
+            ...docSnap.data() // Merge existing data with defaults
+          }));
         }
-        setLoading(false);
-      };
-      fetchUserProfile();
-    }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+      setLoading(false);
+    };
+
+    fetchUserProfile();
   }, [user]);
 
   const handleChange = (e) => {
@@ -54,8 +58,6 @@ const Profile = ({ user }) => {
     }));
   };
 
-  const isValidAadhaar = (number) => /^\d{12}$/.test(number);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -63,15 +65,9 @@ const Profile = ({ user }) => {
       return;
     }
 
-    if (formData.aadhaarAvailable && !isValidAadhaar(formData.aadhaarNumber)) {
-      alert("Aadhaar number must be exactly 12 digits.");
-      return;
-    }
-
     try {
       setLoading(true);
       await setDoc(doc(db, "farmers", user.uid), formData, { merge: true });
-      sessionStorage.setItem("userData", JSON.stringify(formData));
       alert("Profile updated successfully!");
       navigate("/dashboard");
     } catch (error) {
@@ -80,6 +76,8 @@ const Profile = ({ user }) => {
     }
     setLoading(false);
   };
+
+  if (loading) return <h2>Loading Profile...</h2>;
 
   return (
     <form onSubmit={handleSubmit} className="p-6">

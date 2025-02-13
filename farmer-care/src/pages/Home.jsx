@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { auth, db, signInWithPhoneNumber, setUpRecaptcha } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-
-
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
@@ -14,6 +12,7 @@ function Home() {
   const [textIndex, setTextIndex] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [signupMessage, setSignupMessage] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,33 +32,39 @@ function Home() {
   const sendOtp = async (e) => {
     e.preventDefault();
     setError("");
+    setSignupMessage("");
     setLoading(true);
+    
     try {
       const confirmation = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
       setConfirmationResult(confirmation);
     } catch (err) {
       setError("Failed to send OTP. Try again.");
     }
+    
     setLoading(false);
   };
 
   const verifyOtp = async (e) => {
     e.preventDefault();
     setError("");
+    setSignupMessage("");
     setLoading(true);
+    
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
 
-      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userDoc = await getDoc(doc(db, "farmers", user.uid));
       if (userDoc.exists()) {
         navigate("/dashboard");
       } else {
-        navigate("/register");
+        setSignupMessage("User not found. Please sign up below.");
       }
     } catch (err) {
       setError("Invalid OTP. Try again.");
     }
+    
     setLoading(false);
   };
 
@@ -87,6 +92,17 @@ function Home() {
               <div className="backdrop-blur-md bg-white bg-opacity-10 p-8 rounded-lg shadow-xl">
                 <h2 className="text-3xl font-bold text-center text-white mb-8">Login</h2>
                 {error && <p className="text-red-400 text-center">{error}</p>}
+                {signupMessage && (
+                  <div className="text-yellow-400 text-center">
+                    <p>{signupMessage}</p>
+                    <button
+                      className="mt-2 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600"
+                      onClick={() => navigate("/register")}
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                )}
                 {!confirmationResult ? (
                   <form onSubmit={sendOtp} className="space-y-4">
                     <div>
@@ -129,38 +145,19 @@ function Home() {
                   </form>
                 )}
                 <div id="recaptcha-container"></div>
+
+                <p className="text-white text-center mt-4">
+                  New user?{" "}
+                  <button onClick={() => navigate("/register")} className="text-yellow-400 underline hover:text-yellow-500">
+                    Sign Up
+                  </button>
+                </p>
+
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="py-16 px-4 bg-white">
-        <h2 className="text-3xl font-bold text-center text-green-600 mb-12">How does FarmerCare help you</h2>
-        <div className="container mx-auto max-w-4xl space-y-6">
-          <div className="bg-green-100 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-green-900 mb-2">Weather Forecasting</h3>
-            <p className="text-green-800">Get accurate weather predictions to plan your farming activities effectively.</p>
-          </div>
-          <div className="bg-green-100 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-green-900 mb-2">Crop Management</h3>
-            <p className="text-green-800">Track and manage your crops with expert recommendations for better yield.</p>
-          </div>
-          <div className="bg-green-100 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-green-900 mb-2">Government Schemes</h3>
-            <p className="text-green-800">Stay updated with latest government schemes and benefits for farmers.</p>
-          </div>
-          <div className="bg-green-100 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-green-900 mb-2">Loan Assistance</h3>
-            <p className="text-green-800">Easy access to information about agricultural loans and financial support.</p>
-          </div>
-          <div className="bg-green-100 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold text-green-900 mb-2">Expert Support</h3>
-            <p className="text-green-800">Get guidance from agricultural experts for your farming needs.</p>
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 }

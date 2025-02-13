@@ -1,33 +1,39 @@
 import { useEffect, useState } from "react";
-import { fetchSchemes } from "../schemeUtilis";
+import { fetchSchemes } from "../schemeUtils";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function GovSchemes() {
   const [schemes, setSchemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const userInput = {
-    category: "Agriculture",
-    land_size: 10,
-    income: 50000,
-    aadhaar_available: true,
-    is_govt_employee: false,
-    state: "Odisha",
-  };
-
   useEffect(() => {
-    const getSchemes = async () => {
+    const getUserDataAndSchemes = async () => {
       try {
-        const fetchedSchemes = await fetchSchemes(userInput);
+        const user = auth.currentUser;
+        if (!user) throw new Error("User not logged in.");
+
+        const userRef = doc(db, "farmers", user.uid); // Fixed collection name
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) throw new Error("User profile not found.");
+
+        const userInfo = userSnap.data();
+        console.log("User data:", userInfo); // Debugging log
+
+        const fetchedSchemes = await fetchSchemes(userInfo);
+        console.log("Fetched schemes:", fetchedSchemes); // Debugging log
+
         setSchemes(fetchedSchemes);
       } catch (err) {
+        console.error("Error:", err);
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    getSchemes();
+    getUserDataAndSchemes();
   }, []);
 
   return (
@@ -45,22 +51,7 @@ function GovSchemes() {
           {schemes.map((scheme, index) => (
             <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold text-green-700 mb-3">{scheme.name}</h2>
-              <p className="text-gray-600 mb-4">{scheme.benefits}</p>
-
-              <div className="mb-4">
-                <h3 className="font-medium mb-2">Benefits:</h3>
-                <ul className="list-disc list-inside space-y-1">
-                  {scheme.benefits.map((benefit, idx) => (
-                    <li key={idx} className="text-gray-600">{benefit}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="font-medium mb-2">Eligibility:</h3>
-                <p className="text-gray-600">{scheme.eligibility}</p>
-              </div>
-
+              <p className="text-gray-600 mb-4">{scheme.description}</p>
               <button className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                 Apply Now
               </button>

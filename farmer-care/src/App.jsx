@@ -17,18 +17,18 @@ import "./index.css";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profileExists, setProfileExists] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        setUser(currentUser);
         const profileRef = doc(db, "farmers", currentUser.uid);
         const profileSnap = await getDoc(profileRef);
-        setUser({
-          ...currentUser,
-          profileExists: profileSnap.exists(),
-        });
+        setProfileExists(profileSnap.exists());
       } else {
         setUser(null);
+        setProfileExists(false);
       }
       setLoading(false);
     });
@@ -40,6 +40,7 @@ function App() {
     try {
       await signOut(auth);
       setUser(null);
+      setProfileExists(false);
     } catch (error) {
       console.error("Sign out error:", error);
     }
@@ -51,9 +52,23 @@ function App() {
     <Router>
       {user && <Navbar onLogout={handleSignOut} />}
       <Routes>
-        <Route path="/" element={!user ? <Home /> : <Navigate to={user.profileExists ? "/dashboard" : "/register"} />} />
-        <Route path="/register" element={user ? <Register user={user} /> : <Navigate to="/" />} />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+        <Route
+          path="/"
+          element={
+            !user ? (
+              <Home />
+            ) : profileExists ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Navigate to="/register" />
+            )
+          }
+        />
+        <Route
+          path="/register"
+          element={!user ? <Register /> : profileExists ? <Navigate to="/dashboard" /> : <Register />}
+        />
+        <Route path="/dashboard" element={user && profileExists ? <Dashboard /> : <Navigate to="/" />} />
         <Route path="/profile" element={user ? <Profile user={user} /> : <Navigate to="/" />} />
         <Route path="/loan-schemes" element={user ? <LoanSchemes /> : <Navigate to="/" />} />
         <Route path="/crop-recommendations" element={user ? <CropRecommendations /> : <Navigate to="/" />} />
