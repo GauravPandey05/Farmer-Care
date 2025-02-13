@@ -54,7 +54,7 @@ const Register = ({ user }) => {
       uid: user.uid,
       name: formData.name,
       phone: user.phoneNumber || "N/A",
-      landSize: parseFloat(formData.landSize),
+      land_size: parseFloat(formData.landSize),  
       crops: formData.crops.split(",").map((crop) => crop.trim()),
       income: parseFloat(formData.income),
       aadhaar_available: formData.aadhaarAvailable,
