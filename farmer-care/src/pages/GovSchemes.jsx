@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchSchemes } from "../schemeUtils";
+import { fetchSchemes } from "../schemeUtilis";
 
 function GovSchemes() {
   const [schemes, setSchemes] = useState([]);
