@@ -20,7 +20,7 @@ function Dashboard() {
                 try {
                     const data = await fetchWeatherByCoords(latitude, longitude);
                     if (data) {
-                        setWeather(data); // Only set weather if it's fetched successfully
+                        setWeather(data); 
                     }
                 } catch (err) {
                     setError("Failed to fetch weather data.");
@@ -33,7 +33,7 @@ function Dashboard() {
                 setLoading(false);
             }
         );
-    }, []); // Empty dependency array ensures this runs only once when the component mounts
+    }, []); 
 
     const handlePrevPage = () => setCurrentPage((prev) => Math.max(0, prev - 1));
     const handleNextPage = () => setCurrentPage((prev) => Math.min(4, prev + 1));
@@ -45,7 +45,7 @@ function Dashboard() {
             {/* Weather Section */}
             <div className="grid md:grid-cols-2 gap-6">
                 {loading ? (
-                    <p>Fetching weather data...</p>
+                    <p className="text-black">Fetching weather data...</p>
                 ) : error ? (
                     <p className="text-red-600">{error}</p>
                 ) : weather ? (

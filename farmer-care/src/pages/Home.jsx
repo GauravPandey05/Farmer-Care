@@ -63,17 +63,18 @@ function Home() {
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
-      const userDoc = await getDoc(doc(db, "farmers", user.uid));
+      const userRef = doc(db, "farmers", user.uid);
+      const userDoc = await getDoc(userRef);
 
-      if (userDoc.exists()) {
-        navigate("/dashboard");
-      } else {
-        await setDoc(doc(db, "farmers", user.uid), {
+      if (!userDoc.exists()) {
+        await setDoc(userRef, {
           uid: user.uid,
           phone: user.phoneNumber,
+          createdAt: new Date(),
         });
-        navigate("/register", { state: { userId: user.uid, phone: user.phoneNumber } });
       }
+
+      navigate("/dashboard");
     } catch (err) {
       setError("Invalid OTP. Try again.");
     }

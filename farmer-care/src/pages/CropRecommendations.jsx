@@ -8,7 +8,7 @@ function CropRecommendations() {
   const [soilTypes, setSoilTypes] = useState([]);
 
   useEffect(() => {
-    fetch("/cropproduction_updated.csv")
+    fetch("/cropproduction.csv")
       .then(response => response.text())
       .then(csvText => {
         Papa.parse(csvText, {
