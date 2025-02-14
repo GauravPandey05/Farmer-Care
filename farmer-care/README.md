@@ -205,6 +205,10 @@ npm start
 
 ---
 
+##Login sample details:
+1. +911234567890 , 123456
+2. +912345678901 , 234567
+
 ## 📜 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
