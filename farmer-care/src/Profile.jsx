@@ -81,48 +81,55 @@ const Profile = ({ user }) => {
   if (loading) return <h2 className="text-center text-gray-700 font-semibold">Loading Profile...</h2>;
 
   return (
-    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
-      <h2 className="text-2xl font-bold text-green-700 text-center mb-4">Update Your Profile</h2>
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
+      <div className="max-w-lg w-full bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-green-700 text-center mb-6">Update Your Profile</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input type="text" name="name" placeholder="Full Name" className="border p-2 rounded w-full"
-          value={formData.name} onChange={handleChange} required />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <label className="block font-semibold text-gray-800">Full Name</label>
+          <input type="text" name="name" placeholder="Enter your name" className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500"
+            value={formData.name} onChange={handleChange} required />
 
-        <input type="number" name="landSize" placeholder="Land Size (in acres)" className="border p-2 rounded w-full"
-          value={formData.landSize} onChange={handleChange} required />
+          <label className="block font-semibold text-gray-800">Land Size (in acres)</label>
+          <input type="number" name="landSize" placeholder="Enter land size" className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500"
+            value={formData.landSize} onChange={handleChange} required />
 
-        <input type="text" name="crops" placeholder="Crops Grown (comma-separated)" className="border p-2 rounded w-full"
-          value={formData.crops} onChange={handleChange} required />
+          <label className="block font-semibold text-gray-800">Crops Grown</label>
+          <input type="text" name="crops" placeholder="Comma-separated crops" className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500"
+            value={formData.crops} onChange={handleChange} required />
 
-        <input type="number" name="income" placeholder="Annual Income (₹)" className="border p-2 rounded w-full"
-          value={formData.income} onChange={handleChange} required />
+          <label className="block font-semibold text-gray-800">Annual Income (₹)</label>
+          <input type="number" name="income" placeholder="Enter income" className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500"
+            value={formData.income} onChange={handleChange} required />
 
-        <select name="state" className="border p-2 rounded w-full" value={formData.state} onChange={handleChange} required>
-          <option value="">Select State/UT</option>
-          {indianStatesAndUTs.map((stateName, index) => (
-            <option key={index} value={stateName}>{stateName}</option>
-          ))}
-        </select>
+          <label className="block font-semibold text-gray-800">State/UT</label>
+          <select name="state" className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500" value={formData.state} onChange={handleChange} required>
+            <option value="">Select State/UT</option>
+            {indianStatesAndUTs.map((stateName, index) => (
+              <option key={index} value={stateName}>{stateName}</option>
+            ))}
+          </select>
 
-        <label className="flex items-center space-x-2">
-          <input type="checkbox" name="aadhaarAvailable" checked={formData.aadhaarAvailable} onChange={handleChange} />
-          <span>Aadhaar Available</span>
-        </label>
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" name="aadhaarAvailable" checked={formData.aadhaarAvailable} onChange={handleChange} className="w-5 h-5" />
+            <span className="text-gray-900 font-semibold">Aadhaar Available</span>
+          </div>
 
-        <input type="text" name="aadhaarNumber" placeholder="Enter Aadhaar Number (12 digits)"
-          className="border p-2 rounded w-full disabled:opacity-50"
-          value={formData.aadhaarNumber} onChange={handleChange} required={formData.aadhaarAvailable}
-          disabled={!formData.aadhaarAvailable} />
+          <input type="text" name="aadhaarNumber" placeholder="Enter Aadhaar Number (12 digits)"
+            className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+            value={formData.aadhaarNumber} onChange={handleChange} required={formData.aadhaarAvailable}
+            disabled={!formData.aadhaarAvailable} />
 
-        <label className="flex items-center space-x-2">
-          <input type="checkbox" name="isGovtEmployee" checked={formData.isGovtEmployee} onChange={handleChange} />
-          <span>Government Employee</span>
-        </label>
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" name="isGovtEmployee" checked={formData.isGovtEmployee} onChange={handleChange} className="w-5 h-5" />
+            <span className="text-gray-900 font-semibold">Government Employee</span>
+          </div>
 
-        <button type="submit" disabled={updating} className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition">
-          {updating ? "Updating..." : "Update Profile"}
-        </button>
-      </form>
+          <button type="submit" disabled={updating} className="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition">
+            {updating ? "Updating..." : "Update Profile"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

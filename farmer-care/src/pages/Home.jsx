@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db, signInWithPhoneNumber, setUpRecaptcha } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 function Home() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -12,7 +12,6 @@ function Home() {
   const [textIndex, setTextIndex] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [signupMessage, setSignupMessage] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,39 +31,53 @@ function Home() {
   const sendOtp = async (e) => {
     e.preventDefault();
     setError("");
-    setSignupMessage("");
     setLoading(true);
-    
+
+    if (!phoneNumber.match(/^\+91\d{10}$/)) {
+      setError("Enter a valid Indian phone number (+91XXXXXXXXXX).");
+      setLoading(false);
+      return;
+    }
+
     try {
       const confirmation = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
       setConfirmationResult(confirmation);
     } catch (err) {
       setError("Failed to send OTP. Try again.");
     }
-    
+
     setLoading(false);
   };
 
   const verifyOtp = async (e) => {
     e.preventDefault();
     setError("");
-    setSignupMessage("");
     setLoading(true);
-    
+
+    if (!otp.match(/^\d{6}$/)) {
+      setError("Enter a valid 6-digit OTP.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const result = await confirmationResult.confirm(otp);
       const user = result.user;
-
       const userDoc = await getDoc(doc(db, "farmers", user.uid));
+
       if (userDoc.exists()) {
         navigate("/dashboard");
       } else {
-        setSignupMessage("User not found. Please sign up below.");
+        await setDoc(doc(db, "farmers", user.uid), {
+          uid: user.uid,
+          phone: user.phoneNumber,
+        });
+        navigate("/register", { state: { userId: user.uid, phone: user.phoneNumber } });
       }
     } catch (err) {
       setError("Invalid OTP. Try again.");
     }
-    
+
     setLoading(false);
   };
 
@@ -90,19 +103,8 @@ function Home() {
             </div>
             <div className="md:w-1/2 max-w-md w-full z-10">
               <div className="backdrop-blur-md bg-white bg-opacity-10 p-8 rounded-lg shadow-xl">
-                <h2 className="text-3xl font-bold text-center text-white mb-8">Login</h2>
+                <h2 className="text-3xl font-bold text-center text-white mb-8">Login / Sign Up</h2>
                 {error && <p className="text-red-400 text-center">{error}</p>}
-                {signupMessage && (
-                  <div className="text-yellow-400 text-center">
-                    <p>{signupMessage}</p>
-                    <button
-                      className="mt-2 bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600"
-                      onClick={() => navigate("/register")}
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-                )}
                 {!confirmationResult ? (
                   <form onSubmit={sendOtp} className="space-y-4">
                     <div>
@@ -113,6 +115,7 @@ function Home() {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required
+                        placeholder="+91XXXXXXXXXX"
                       />
                     </div>
                     <button
@@ -120,7 +123,7 @@ function Home() {
                       className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-colors"
                       disabled={loading}
                     >
-                      {loading ? "Sending..." : "Send OTP"}
+                      {loading ? "Sending..." : "Login / Sign Up"}
                     </button>
                   </form>
                 ) : (
@@ -133,6 +136,7 @@ function Home() {
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
                         required
+                        placeholder="6-digit OTP"
                       />
                     </div>
                     <button
@@ -145,14 +149,6 @@ function Home() {
                   </form>
                 )}
                 <div id="recaptcha-container"></div>
-
-                <p className="text-white text-center mt-4">
-                  New user?{" "}
-                  <button onClick={() => navigate("/register")} className="text-yellow-400 underline hover:text-yellow-500">
-                    Sign Up
-                  </button>
-                </p>
-
               </div>
             </div>
           </div>

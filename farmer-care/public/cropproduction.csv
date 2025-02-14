@@ -1,101 +1,13 @@
-State,District,Year,Season,Crop,Area (hectares),Production (metric tons)
-Uttar Pradesh,Lucknow,2000,Zaid,Maize,1314.23,1981.35
-Maharashtra,Nagpur,2010,Rabi,Groundnut,1831.03,3134.41
-Maharashtra,Pune,2000,Rabi,Maize,1467.35,1714.25
-West Bengal,Darjeeling,2015,Zaid,Bajra,1381.42,1635.7
-West Bengal,Howrah,2010,Rabi,Bajra,1386.74,2666.13
-Uttar Pradesh,Kanpur,2015,Rabi,Sugarcane,1610.23,3044.7
-Rajasthan,Bikaner,2015,Rabi,Maize,736.25,519.02
-Uttar Pradesh,Lucknow,2020,Zaid,Maize,1498.8,4266.35
-Andhra Pradesh,Kadapa,2020,Zaid,Rice,822.4,2009.42
-Karnataka,Mangalore,2000,Rabi,Cotton,1998.38,5162.76
-Tamil Nadu,Madurai,2000,Rabi,Wheat,1807.0,5417.3
-Rajasthan,Jodhpur,2015,Zaid,Jowar,744.5,1925.93
-West Bengal,Kolkata,2010,Rabi,Maize,255.86,248.59
-Andhra Pradesh,Krishna,2020,Zaid,Maize,602.98,1635.68
-Andhra Pradesh,Chittoor,2000,Zaid,Maize,144.09,150.69
-West Bengal,Kolkata,2015,Rabi,Rice,426.74,1110.03
-Uttar Pradesh,Lucknow,2010,Zaid,Sugarcane,625.81,633.37
-Karnataka,Hubli,2000,Zaid,Maize,1515.99,1447.19
-Maharashtra,Pune,2005,Zaid,Cotton,117.63,115.8
-Uttar Pradesh,Kanpur,2000,Rabi,Rice,1462.74,4116.61
-Maharashtra,Nashik,2020,Kharif,Bajra,1433.31,2968.91
-Rajasthan,Udaipur,2015,Zaid,Jowar,1001.67,1935.92
-Rajasthan,Udaipur,2005,Rabi,Cotton,1861.36,2096.52
-Tamil Nadu,Madurai,2005,Zaid,Cotton,567.55,836.44
-Karnataka,Bangalore,2010,Rabi,Maize,1542.01,2757.1
-West Bengal,Darjeeling,2010,Rabi,Cotton,1124.51,2467.89
-West Bengal,Kolkata,2005,Rabi,Maize,856.5,2217.41
-Karnataka,Bangalore,2010,Kharif,Bajra,1874.58,2129.47
-Uttar Pradesh,Agra,2020,Kharif,Pulses,1379.68,1856.97
-Maharashtra,Mumbai,2015,Rabi,Rice,1577.9,1500.67
-Andhra Pradesh,Chittoor,2020,Rabi,Bajra,272.85,599.39
-West Bengal,Siliguri,2010,Zaid,Cotton,1936.33,4486.88
-Karnataka,Bangalore,2005,Rabi,Sugarcane,1846.45,2127.78
-Gujarat,Surat,2010,Kharif,Maize,881.21,1082.39
-Karnataka,Bangalore,2000,Zaid,Pulses,1844.42,5476.59
-Gujarat,Rajkot,2015,Kharif,Rice,1760.93,4523.74
-West Bengal,Howrah,2020,Zaid,Cotton,937.25,2602.99
-Rajasthan,Jodhpur,2005,Kharif,Cotton,739.41,760.8
-Tamil Nadu,Salem,2000,Zaid,Wheat,1224.0,3108.42
-Uttar Pradesh,Lucknow,2015,Rabi,Sugarcane,206.39,245.08
-Andhra Pradesh,Krishna,2010,Kharif,Wheat,1759.01,4577.54
-Uttar Pradesh,Kanpur,2010,Rabi,Sugarcane,1872.1,1500.5
-Karnataka,Mysore,2010,Zaid,Groundnut,1481.45,3545.85
-Maharashtra,Pune,2015,Rabi,Bajra,220.83,134.61
-West Bengal,Siliguri,2020,Kharif,Sugarcane,1115.26,2773.38
-Rajasthan,Jaipur,2005,Zaid,Maize,1602.95,1562.54
-Maharashtra,Mumbai,2005,Zaid,Groundnut,1503.72,2048.2
-Karnataka,Bangalore,2015,Rabi,Sugarcane,1243.91,3343.36
-Maharashtra,Nagpur,2000,Rabi,Maize,1727.65,1035.36
-West Bengal,Darjeeling,2015,Zaid,Groundnut,961.61,2204.48
-Rajasthan,Jodhpur,2015,Zaid,Pulses,54.23,62.83
-Maharashtra,Pune,2010,Zaid,Sugarcane,511.94,844.7
-Tamil Nadu,Coimbatore,2015,Kharif,Wheat,657.72,1469.33
-Gujarat,Surat,2010,Zaid,Groundnut,100.54,84.35
-Tamil Nadu,Chennai,2010,Zaid,Groundnut,281.38,501.39
-Tamil Nadu,Coimbatore,2010,Zaid,Pulses,442.32,427.76
-Maharashtra,Mumbai,2010,Kharif,Pulses,855.34,530.87
-Rajasthan,Jodhpur,2000,Zaid,Sugarcane,861.36,1206.87
-Andhra Pradesh,Kadapa,2020,Kharif,Bajra,641.86,1713.36
-West Bengal,Darjeeling,2000,Kharif,Maize,1223.83,669.36
-West Bengal,Howrah,2005,Zaid,Rice,198.19,311.74
-Tamil Nadu,Coimbatore,2015,Zaid,Cotton,637.54,953.49
-Rajasthan,Jaipur,2020,Zaid,Pulses,1619.87,3516.14
-Rajasthan,Jodhpur,2010,Rabi,Groundnut,1076.89,796.46
-Tamil Nadu,Chennai,2005,Rabi,Groundnut,1004.1,1667.33
-Gujarat,Surat,2020,Kharif,Jowar,237.23,698.97
-West Bengal,Darjeeling,2015,Rabi,Rice,1502.86,2267.9
-Gujarat,Surat,2010,Kharif,Cotton,1436.39,2303.1
-Uttar Pradesh,Lucknow,2005,Rabi,Bajra,809.75,1701.28
-Karnataka,Mangalore,2005,Kharif,Wheat,1246.59,3460.29
-Maharashtra,Pune,2000,Zaid,Wheat,983.95,2306.65
-Gujarat,Vadodara,2020,Kharif,Sugarcane,1833.31,2731.27
-Gujarat,Ahmedabad,2005,Kharif,Bajra,1967.57,2061.99
-Tamil Nadu,Coimbatore,2000,Kharif,Groundnut,1806.63,4481.71
-Rajasthan,Jaipur,2020,Zaid,Pulses,1667.4,3741.48
-Uttar Pradesh,Varanasi,2020,Zaid,Pulses,343.08,664.27
-Karnataka,Bangalore,2000,Rabi,Pulses,1253.35,3341.49
-Rajasthan,Udaipur,2005,Kharif,Maize,397.37,316.3
-Karnataka,Mangalore,2010,Rabi,Maize,991.29,2146.84
-West Bengal,Siliguri,2010,Zaid,Bajra,1453.04,3883.34
-Andhra Pradesh,Guntur,2015,Rabi,Groundnut,405.47,226.44
-Rajasthan,Jaipur,2010,Kharif,Groundnut,1565.24,3100.96
-Karnataka,Mangalore,2010,Kharif,Rice,741.09,760.32
-West Bengal,Darjeeling,2000,Kharif,Groundnut,856.93,2461.81
-Karnataka,Mysore,2015,Kharif,Sugarcane,182.15,453.81
-Gujarat,Surat,2020,Rabi,Maize,1872.99,5322.45
-Andhra Pradesh,Krishna,2005,Rabi,Pulses,350.69,885.8
-Rajasthan,Jodhpur,2010,Zaid,Maize,816.27,986.72
-Andhra Pradesh,Kadapa,2005,Kharif,Cotton,595.34,685.1
-Uttar Pradesh,Lucknow,2005,Rabi,Groundnut,1459.19,1615.62
-West Bengal,Kolkata,2015,Kharif,Rice,1885.85,3251.54
-Andhra Pradesh,Krishna,2010,Kharif,Jowar,245.3,443.77
-Uttar Pradesh,Agra,2015,Rabi,Wheat,941.81,1017.16
-Andhra Pradesh,Kadapa,2010,Zaid,Jowar,1238.32,925.8
-Tamil Nadu,Coimbatore,2020,Kharif,Rice,1966.37,5875.17
-Andhra Pradesh,Guntur,2000,Rabi,Rice,1656.61,3768.76
-Maharashtra,Nagpur,2020,Kharif,Bajra,112.28,232.35
-West Bengal,Howrah,2000,Rabi,Sugarcane,168.4,355.75
-Gujarat,Surat,2015,Rabi,Rice,763.88,1568.56
-Uttar Pradesh,Agra,2005,Kharif,Maize,1845.23,4245.94
+State,City,Year,Season,Crop,Area,Production,Soil Type,Min Rainfall (mm)
+Uttar Pradesh,Lucknow,2000,Zaid,Maize,1314.23,1981.35,Sandy Loam,1396
+Maharashtra,Nagpur,2010,Rabi,Groundnut,1831.03,3134.41,Sandy Loam,524
+Maharashtra,Pune,2000,Rabi,Maize,1467.35,1714.25,Sandy Loam,888
+West Bengal,Darjeeling,2015,Zaid,Bajra,1381.42,1635.7,Sandy,640
+West Bengal,Howrah,2010,Rabi,Bajra,1386.74,2666.13,Sandy,526
+Uttar Pradesh,Kanpur,2015,Rabi,Sugarcane,1610.23,3044.7,Alluvial,1044
+Rajasthan,Bikaner,2015,Rabi,Maize,736.25,519.02,Sandy Loam,1225
+Uttar Pradesh,Lucknow,2020,Zaid,Maize,1498.8,4266.35,Sandy Loam,944
+Andhra Pradesh,Kadapa,2020,Zaid,Rice,822.4,2009.42,Clayey,1656
+Karnataka,Mangalore,2000,Rabi,Cotton,1998.38,5162.76,Black Soil,736
+Tamil Nadu,Madurai,2000,Rabi,Wheat,1807,5417.3,Loamy,1190
+Rajasthan,Jodhpur,2015,Zaid,Jowar,744.5,1925.93,Loamy,863

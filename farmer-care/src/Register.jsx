@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const indianStatesAndUTs = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -13,12 +13,17 @@ const indianStatesAndUTs = [
   "Lakshadweep", "Delhi", "Puducherry", "Ladakh", "Jammu and Kashmir"
 ];
 
-const Register = ({ user }) => {
+const cropsList = ["Wheat", "Rice", "Maize", "Sugarcane", "Cotton", "Pulses", "Soybean", "Tea", "Coffee", "Jute"];
+
+const Register = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const user = location.state?.user;
+
   const [formData, setFormData] = useState({
     name: "",
     landSize: "",
-    crops: "",
+    crops: [],
     income: "",
     aadhaarAvailable: false,
     aadhaarNumber: "",
@@ -27,12 +32,46 @@ const Register = ({ user }) => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [dataFetched, setDataFetched] = useState(false); // Prevents infinite loop
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+      return;
+    }
+
+    const fetchUserProfile = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, "farmers", user.uid));
+        if (userDoc.exists() && !dataFetched) {
+          setFormData((prev) => ({
+            ...prev,
+            ...userDoc.data(),
+          }));
+          setDataFetched(true);
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    if (!dataFetched) fetchUserProfile();
+  }, [user, navigate, dataFetched]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleCropSelection = (crop) => {
+    setFormData((prev) => ({
+      ...prev,
+      crops: prev.crops.includes(crop)
+        ? prev.crops.filter((c) => c !== crop)
+        : [...prev.crops, crop],
     }));
   };
 
@@ -45,6 +84,11 @@ const Register = ({ user }) => {
       return;
     }
 
+    if (formData.landSize <= 0 || formData.income < 0) {
+      alert("Land size and income must be positive numbers.");
+      return;
+    }
+
     if (formData.aadhaarAvailable && !isValidAadhaar(formData.aadhaarNumber)) {
       alert("Aadhaar number must be exactly 12 digits.");
       return;
@@ -54,8 +98,8 @@ const Register = ({ user }) => {
       uid: user.uid,
       name: formData.name,
       phone: user.phoneNumber || "N/A",
-      land_size: parseFloat(formData.landSize),  
-      crops: formData.crops.split(",").map((crop) => crop.trim()),
+      land_size: parseFloat(formData.landSize),
+      crops: formData.crops,
       income: parseFloat(formData.income),
       aadhaar_available: formData.aadhaarAvailable,
       aadhaar_number: formData.aadhaarAvailable ? formData.aadhaarNumber : null,
@@ -75,28 +119,66 @@ const Register = ({ user }) => {
     setLoading(false);
   };
 
-  if (!user) return <p className="text-center text-red-500">Loading...</p>;
-
   return (
     <form onSubmit={handleSubmit} className="p-6">
       <h2 className="text-xl font-bold">Complete Your Profile</h2>
 
-      <input type="text" name="name" placeholder="Full Name" className="border p-2 rounded w-full my-2"
-        value={formData.name} onChange={handleChange} required />
+      <input
+        type="text"
+        name="name"
+        placeholder="Full Name"
+        className="border p-2 rounded w-full my-2"
+        value={formData.name}
+        onChange={handleChange}
+        required
+      />
 
-      <input type="number" name="landSize" placeholder="Land Size (in acres)" className="border p-2 rounded w-full my-2"
-        value={formData.landSize} onChange={handleChange} required />
+      <input
+        type="number"
+        name="landSize"
+        placeholder="Land Size (in acres)"
+        className="border p-2 rounded w-full my-2"
+        value={formData.landSize}
+        onChange={handleChange}
+        required
+      />
 
-      <input type="text" name="crops" placeholder="Crops Grown (comma-separated)" className="border p-2 rounded w-full my-2"
-        value={formData.crops} onChange={handleChange} required />
+      <p className="text-gray-700 mt-2">Select Crops Grown:</p>
+      <div className="flex flex-wrap">
+        {cropsList.map((crop) => (
+          <label key={crop} className="mr-4">
+            <input
+              type="checkbox"
+              checked={formData.crops.includes(crop)}
+              onChange={() => handleCropSelection(crop)}
+            />
+            {crop}
+          </label>
+        ))}
+      </div>
 
-      <input type="number" name="income" placeholder="Annual Income (₹)" className="border p-2 rounded w-full my-2"
-        value={formData.income} onChange={handleChange} required />
+      <input
+        type="number"
+        name="income"
+        placeholder="Annual Income (₹)"
+        className="border p-2 rounded w-full my-2"
+        value={formData.income}
+        onChange={handleChange}
+        required
+      />
 
-      <select name="state" className="border p-2 rounded w-full my-2" value={formData.state} onChange={handleChange} required>
+      <select
+        name="state"
+        className="border p-2 rounded w-full my-2"
+        value={formData.state}
+        onChange={handleChange}
+        required
+      >
         <option value="">Select State/UT</option>
         {indianStatesAndUTs.map((stateName, index) => (
-          <option key={index} value={stateName}>{stateName}</option>
+          <option key={index} value={stateName}>
+            {stateName}
+          </option>
         ))}
       </select>
 
@@ -106,8 +188,15 @@ const Register = ({ user }) => {
       </label>
 
       {formData.aadhaarAvailable && (
-        <input type="text" name="aadhaarNumber" placeholder="Enter Aadhaar Number (12 digits)" className="border p-2 rounded w-full my-2"
-          value={formData.aadhaarNumber} onChange={handleChange} required />
+        <input
+          type="text"
+          name="aadhaarNumber"
+          placeholder="Enter Aadhaar Number (12 digits)"
+          className="border p-2 rounded w-full my-2"
+          value={formData.aadhaarNumber}
+          onChange={handleChange}
+          required
+        />
       )}
 
       <label className="flex items-center space-x-2 my-2">

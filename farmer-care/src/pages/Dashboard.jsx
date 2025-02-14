@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { fetchWeatherByCoords } from "../apiUtils";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -27,18 +27,18 @@ function Dashboard() {
     const [currentPage, setCurrentPage] = useState(0);
     const [userCrops, setUserCrops] = useState([]);
 
-    useEffect(() => {
-        const fetchUserCrops = async () => {
-            const user = auth.currentUser;
-            if (user) {
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-                if (userSnap.exists()) {
-                    setUserCrops(userSnap.data().crops || []);
-                }
+    const fetchUserCrops = useCallback(async () => {
+        const user = auth.currentUser;
+        if (user) {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                setUserCrops(userSnap.data().crops || []);
             }
-        };
+        }
+    }, []);
 
+    useEffect(() => {
         const fetchWeather = () => {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
@@ -59,21 +59,26 @@ function Dashboard() {
             );
         };
 
-        async function sendWeatherAlert() {
-            const { crops, location, phone } = await fetchUserCropsAndLocation();
-            if (crops.length > 0 && phone) {
-                await fetch("http://localhost:5000/send-sms", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ crops, location, phone })
-                });
-            }
-        }
-
         fetchUserCrops();
         fetchWeather();
-        sendWeatherAlert();
-    }, []);
+    }, [fetchUserCrops]);
+
+    async function sendWeatherAlert() {
+        const { crops, location, phone } = await fetchUserCropsAndLocation();
+        if (crops.length > 0 && phone) {
+            await fetch("http://localhost:5000/send-sms", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ crops, location, phone }),
+            });
+        }
+    }
+
+    useEffect(() => {
+        if (userCrops.length > 0) {
+            sendWeatherAlert();
+        }
+    }, [userCrops]);
 
     const handlePrevPage = () => setCurrentPage((prev) => Math.max(0, prev - 1));
     const handleNextPage = () => setCurrentPage((prev) => Math.min(4, prev + 1));
@@ -85,7 +90,8 @@ function Dashboard() {
             {/* Weather Section */}
             <div className="grid md:grid-cols-2 gap-6">
                 {loading ? (
-                    <p>Fetching weather data...</p>
+                    <p className="text-black">Fetching weather data...</p>
+
                 ) : error ? (
                     <p className="text-red-600">{error}</p>
                 ) : weather ? (
