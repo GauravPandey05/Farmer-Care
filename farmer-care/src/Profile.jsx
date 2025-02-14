@@ -26,6 +26,7 @@ const Profile = ({ user }) => {
     state: "",
   });
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -38,7 +39,7 @@ const Profile = ({ user }) => {
         if (docSnap.exists()) {
           setFormData(prev => ({
             ...prev,
-            ...docSnap.data() // Merge existing data with defaults
+            ...docSnap.data()
           }));
         }
       } catch (error) {
@@ -66,7 +67,7 @@ const Profile = ({ user }) => {
     }
 
     try {
-      setLoading(true);
+      setUpdating(true);
       await setDoc(doc(db, "farmers", user.uid), formData, { merge: true });
       alert("Profile updated successfully!");
       navigate("/dashboard");
@@ -74,53 +75,55 @@ const Profile = ({ user }) => {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Try again.");
     }
-    setLoading(false);
+    setUpdating(false);
   };
 
-  if (loading) return <h2>Loading Profile...</h2>;
+  if (loading) return <h2 className="text-center text-gray-700 font-semibold">Loading Profile...</h2>;
 
   return (
-    <form onSubmit={handleSubmit} className="p-6">
-      <h2 className="text-xl font-bold">Update Your Profile</h2>
+    <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg mt-10">
+      <h2 className="text-2xl font-bold text-green-700 text-center mb-4">Update Your Profile</h2>
 
-      <input type="text" name="name" placeholder="Full Name" className="border p-2 rounded w-full my-2"
-        value={formData.name} onChange={handleChange} required />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input type="text" name="name" placeholder="Full Name" className="border p-2 rounded w-full"
+          value={formData.name} onChange={handleChange} required />
 
-      <input type="number" name="landSize" placeholder="Land Size (in acres)" className="border p-2 rounded w-full my-2"
-        value={formData.landSize} onChange={handleChange} required />
+        <input type="number" name="landSize" placeholder="Land Size (in acres)" className="border p-2 rounded w-full"
+          value={formData.landSize} onChange={handleChange} required />
 
-      <input type="text" name="crops" placeholder="Crops Grown (comma-separated)" className="border p-2 rounded w-full my-2"
-        value={formData.crops} onChange={handleChange} required />
+        <input type="text" name="crops" placeholder="Crops Grown (comma-separated)" className="border p-2 rounded w-full"
+          value={formData.crops} onChange={handleChange} required />
 
-      <input type="number" name="income" placeholder="Annual Income (₹)" className="border p-2 rounded w-full my-2"
-        value={formData.income} onChange={handleChange} required />
+        <input type="number" name="income" placeholder="Annual Income (₹)" className="border p-2 rounded w-full"
+          value={formData.income} onChange={handleChange} required />
 
-      <select name="state" className="border p-2 rounded w-full my-2" value={formData.state} onChange={handleChange} required>
-        <option value="">Select State/UT</option>
-        {indianStatesAndUTs.map((stateName, index) => (
-          <option key={index} value={stateName}>{stateName}</option>
-        ))}
-      </select>
+        <select name="state" className="border p-2 rounded w-full" value={formData.state} onChange={handleChange} required>
+          <option value="">Select State/UT</option>
+          {indianStatesAndUTs.map((stateName, index) => (
+            <option key={index} value={stateName}>{stateName}</option>
+          ))}
+        </select>
 
-      <label className="flex items-center space-x-2 my-2">
-        <input type="checkbox" name="aadhaarAvailable" checked={formData.aadhaarAvailable} onChange={handleChange} />
-        <span>Aadhaar Available</span>
-      </label>
+        <label className="flex items-center space-x-2">
+          <input type="checkbox" name="aadhaarAvailable" checked={formData.aadhaarAvailable} onChange={handleChange} />
+          <span>Aadhaar Available</span>
+        </label>
 
-      {formData.aadhaarAvailable && (
-        <input type="text" name="aadhaarNumber" placeholder="Enter Aadhaar Number (12 digits)" className="border p-2 rounded w-full my-2"
-          value={formData.aadhaarNumber} onChange={handleChange} required />
-      )}
+        <input type="text" name="aadhaarNumber" placeholder="Enter Aadhaar Number (12 digits)"
+          className="border p-2 rounded w-full disabled:opacity-50"
+          value={formData.aadhaarNumber} onChange={handleChange} required={formData.aadhaarAvailable}
+          disabled={!formData.aadhaarAvailable} />
 
-      <label className="flex items-center space-x-2 my-2">
-        <input type="checkbox" name="isGovtEmployee" checked={formData.isGovtEmployee} onChange={handleChange} />
-        <span>Government Employee</span>
-      </label>
+        <label className="flex items-center space-x-2">
+          <input type="checkbox" name="isGovtEmployee" checked={formData.isGovtEmployee} onChange={handleChange} />
+          <span>Government Employee</span>
+        </label>
 
-      <button type="submit" disabled={loading} className="px-4 py-2 bg-blue-500 text-white rounded">
-        {loading ? "Updating..." : "Update Profile"}
-      </button>
-    </form>
+        <button type="submit" disabled={updating} className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition">
+          {updating ? "Updating..." : "Update Profile"}
+        </button>
+      </form>
+    </div>
   );
 };
 

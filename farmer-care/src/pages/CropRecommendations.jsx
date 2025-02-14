@@ -1,56 +1,75 @@
-function CropRecommendations() {
-  const recommendations = [
-    {
-      crop: "Wheat",
-      season: "Rabi",
-      soilType: "Loamy",
-      waterRequirement: "Medium",
-      expectedYield: "4-5 tonnes/hectare",
-    },
-    {
-      crop: "Rice",
-      season: "Kharif",
-      soilType: "Clay",
-      waterRequirement: "High",
-      expectedYield: "3-4 tonnes/hectare",
-    },
-    {
-      crop: "Cotton",
-      season: "Kharif",
-      soilType: "Black soil",
-      waterRequirement: "Medium",
-      expectedYield: "2-3 tonnes/hectare",
-    },
-  ];
+import { useState, useEffect } from "react";
+import Papa from "papaparse";
 
-  const handleViewDetails = (cropName) => {
-    alert(`More details about ${cropName} coming soon!`);
+function CropRecommendations() {
+  const [crops, setCrops] = useState([]);
+  const [filteredCrops, setFilteredCrops] = useState([]);
+  const [conditions, setConditions] = useState({ soil: "", rainfall: "" });
+
+  useEffect(() => {
+    fetch("/cropproduction.csv")
+      .then(response => response.text())
+      .then(csvText => {
+        Papa.parse(csvText, {
+          header: true,
+          dynamicTyping: true,
+          complete: (result) => setCrops(result.data),
+        });
+      });
+  }, []);
+
+  const handleFilter = () => {
+    const { soil, rainfall } = conditions;
+    const filtered = crops.filter(crop =>
+      (!soil || crop.Soil === soil) &&
+      (!rainfall || (crop.Rainfall >= parseInt(rainfall)))
+    );
+    setFilteredCrops(filtered);
   };
 
   return (
-    <div className="min-h-screen bg-black py-10">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-green-600 text-center mb-8">Crop Recommendations</h1>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {recommendations.map((crop, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <h2 className="text-2xl font-semibold text-green-700 mb-3">{crop.crop}</h2>
-              <div className="space-y-2 text-gray-700">
-                <p><span className="font-medium">🌱 Season:</span> {crop.season}</p>
-                <p><span className="font-medium">🌍 Soil Type:</span> {crop.soilType}</p>
-                <p><span className="font-medium">💧 Water Requirement:</span> {crop.waterRequirement}</p>
-                <p><span className="font-medium">📊 Expected Yield:</span> {crop.expectedYield}</p>
-              </div>
-              <button
-                className="mt-4 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition-all"
-                onClick={() => handleViewDetails(crop.crop)}
-              >
-                View Details
-              </button>
-            </div>
-          ))}
-        </div>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold text-green-700 mb-6">Crop Recommendations</h1>
+      
+      <div className="mb-4">
+        <label className="block text-lg font-semibold">Soil Type:</label>
+        <input
+          type="text"
+          value={conditions.soil}
+          onChange={(e) => setConditions({ ...conditions, soil: e.target.value })}
+          className="border p-2 rounded w-full"
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-lg font-semibold">Minimum Rainfall (mm):</label>
+        <input
+          type="number"
+          value={conditions.rainfall}
+          onChange={(e) => setConditions({ ...conditions, rainfall: e.target.value })}
+          className="border p-2 rounded w-full"
+        />
+      </div>
+
+      <button
+        onClick={handleFilter}
+        className="px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-700"
+      >
+        Get Recommendations
+      </button>
+
+      <div className="mt-6">
+        {filteredCrops.length > 0 ? (
+          <ul className="space-y-2">
+            {filteredCrops.map((crop, index) => (
+              <li key={index} className="p-4 bg-white shadow rounded">
+                <strong>{crop.Crop}</strong> - Suitable for {crop.Soil}, Rainfall: {crop.Rainfall}mm
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-600 mt-4">No crops match your criteria.</p>
+        )}
       </div>
     </div>
   );
