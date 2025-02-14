@@ -37,7 +37,7 @@ function GovSchemes() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-white">
       <h1 className="text-3xl font-bold text-green-600 mb-8">Government Schemes</h1>
 
       {loading ? (
