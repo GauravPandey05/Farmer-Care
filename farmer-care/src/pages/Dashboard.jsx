@@ -1,36 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { fetchWeatherByCoords } from "../apiUtils";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function Dashboard() {
     const [weather, setWeather] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
-
-    const crops = [
-        { name: "Wheat", status: "Growing", plantedDate: "2024-01-15" },
-        { name: "Rice", status: "Ready for harvest", plantedDate: "2023-12-01" },
-        { name: "Corn", status: "Growing", plantedDate: "2024-02-01" },
-    ];
+    const [userCrops, setUserCrops] = useState([]);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const { latitude, longitude } = position.coords;
-                try {
-                    const data = await fetchWeatherByCoords(latitude, longitude);
-                    setWeather(data);
-                } catch (err) {
-                    setError("Failed to fetch weather data.");
-                } finally {
+        const fetchUserCrops = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    setUserCrops(userSnap.data().crops || []);
+                }
+            }
+        };
+
+        const fetchWeather = () => {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    try {
+                        const data = await fetchWeatherByCoords(latitude, longitude);
+                        setWeather(data);
+                    } catch {
+                        setError("Failed to fetch weather data.");
+                    } finally {
+                        setLoading(false);
+                    }
+                },
+                () => {
+                    setError("Location access denied. Unable to fetch weather data.");
                     setLoading(false);
                 }
-            },
-            () => {
-                setError("Location access denied. Unable to fetch weather data.");
-                setLoading(false);
-            }
-        );
+            );
+        };
+
+        fetchUserCrops();
+        fetchWeather();
     }, []);
 
     const handlePrevPage = () => setCurrentPage((prev) => Math.max(0, prev - 1));
@@ -99,16 +112,20 @@ function Dashboard() {
 
             {/* Current Crops Section */}
             <div className="bg-white p-6 rounded-lg shadow mt-6">
-                <h2 className="text-xl font-semibold text-green-800 mb-3">Current Crops</h2>
-                <div className="grid md:grid-cols-3 gap-4">
-                    {crops.map((crop, index) => (
-                        <div key={index} className="bg-green-100 p-4 rounded-lg shadow-sm border border-green-300">
-                            <h3 className="text-lg font-semibold text-green-900">{crop.name}</h3>
-                            <p className="text-gray-800 font-medium">Status: {crop.status}</p>
-                            <p className="text-gray-800 font-medium">Planted: {crop.plantedDate}</p>
-                        </div>
-                    ))}
-                </div>
+                <h2 className="text-xl font-semibold text-green-800 mb-3">Your Crops</h2>
+                {userCrops.length === 0 ? (
+                    <p className="text-gray-700">No crops found. Update your profile to add crops.</p>
+                ) : (
+                    <div className="grid md:grid-cols-3 gap-4">
+                        {userCrops.map((crop, index) => (
+                            <div key={index} className="bg-green-100 p-4 rounded-lg shadow-sm border border-green-300">
+                                <h3 className="text-lg font-semibold text-green-900">{crop.name}</h3>
+                                <p className="text-gray-800 font-medium">Status: {crop.status}</p>
+                                <p className="text-gray-800 font-medium">Planted: {crop.plantedDate}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
