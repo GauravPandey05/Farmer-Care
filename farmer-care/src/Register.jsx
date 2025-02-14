@@ -32,7 +32,7 @@ const Register = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [dataFetched, setDataFetched] = useState(false); // Prevents infinite loop
+  const [dataFetched, setDataFetched] = useState(false); 
 
   useEffect(() => {
     if (!user) {

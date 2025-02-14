@@ -15,13 +15,13 @@ function CropRecommendations() {
           header: true,
           dynamicTyping: true,
           complete: (result) => {
-            console.log("CSV Data Loaded:", result.data); // Debugging
+            console.log("CSV Data Loaded:", result.data); 
             if (result.data.length > 0) {
               setCrops(result.data);
               const firstRow = result.data[0];
-              console.log("First Row Keys:", Object.keys(firstRow)); // Debugging
+              console.log("First Row Keys:", Object.keys(firstRow)); 
 
-              // Check the correct column name
+              
               const soilColumn = Object.keys(firstRow).find(key => key.toLowerCase().includes("soil"));
               if (!soilColumn) {
                 console.error("Error: Soil Type column not found in CSV");
