@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db, signInWithPhoneNumber, setUpRecaptcha } from "../firebase";
+import { auth, db } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 function Home() {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOtp] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSignUp, setIsSignUp] = useState(null);
   const [typedText, setTypedText] = useState("");
   const fullText = "Your complete farming companion for better yield and sustainable growth.";
   const [textIndex, setTextIndex] = useState(0);
@@ -24,61 +25,23 @@ function Home() {
     }
   }, [textIndex]);
 
-  useEffect(() => {
-    setUpRecaptcha();
-  }, []);
-
-  const sendOtp = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    if (!phoneNumber.match(/^\+91\d{10}$/)) {
-      setError("Enter a valid Indian phone number (+91XXXXXXXXXX).");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
-      setConfirmationResult(confirmation);
-    } catch (err) {
-      setError("Failed to send OTP. Try again.");
-    }
-
-    setLoading(false);
-  };
-
-  const verifyOtp = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    if (!otp.match(/^\d{6}$/)) {
-      setError("Enter a valid 6-digit OTP.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const result = await confirmationResult.confirm(otp);
-      const user = result.user;
-      const userRef = doc(db, "farmers", user.uid);
-      const userDoc = await getDoc(userRef);
-
-      if (!userDoc.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          phone: user.phoneNumber,
-          createdAt: new Date(),
-        });
+      if (isSignUp) {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "farmers", userCredential.user.uid), { email, createdAt: new Date() });
+        navigate("/dashboard");
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/dashboard");
       }
-
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Invalid OTP. Try again.");
+    } catch (error) {
+      setError(error.message);
     }
-
     setLoading(false);
   };
 
@@ -102,54 +65,69 @@ function Home() {
                 <span className="animate-pulse">|</span>
               </p>
             </div>
+
             <div className="md:w-1/2 max-w-md w-full z-10">
               <div className="backdrop-blur-md bg-white bg-opacity-10 p-8 rounded-lg shadow-xl">
-                <h2 className="text-3xl font-bold text-center text-white mb-8">Login / Sign Up</h2>
+                <h2 className="text-3xl font-bold text-center text-white mb-8">
+                  {isSignUp === null ? "Get Started" : isSignUp ? "Sign Up" : "Login"}
+                </h2>
                 {error && <p className="text-red-400 text-center">{error}</p>}
-                {!confirmationResult ? (
-                  <form onSubmit={sendOtp} className="space-y-4">
-                    <div>
-                      <label className="block text-white">Phone Number</label>
-                      <input
-                        type="tel"
-                        className="w-full p-2 border rounded bg-white bg-opacity-10 text-white placeholder-gray-300"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        required
-                        placeholder="+91XXXXXXXXXX"
-                      />
-                    </div>
+
+                {isSignUp === null ? (
+                  <div className="flex flex-col space-y-4">
                     <button
-                      type="submit"
-                      className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-colors"
-                      disabled={loading}
+                      className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+                      onClick={() => setIsSignUp(false)}
                     >
-                      {loading ? "Sending..." : "Login / Sign Up"}
+                      Login
                     </button>
-                  </form>
+                    <button
+                      className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-colors"
+                      onClick={() => setIsSignUp(true)}
+                    >
+                      Sign Up
+                    </button>
+                  </div>
                 ) : (
-                  <form onSubmit={verifyOtp} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label className="block text-white">Enter OTP</label>
+                      <label className="block text-white">Email</label>
                       <input
-                        type="text"
+                        type="email"
                         className="w-full p-2 border rounded bg-white bg-opacity-10 text-white placeholder-gray-300"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
-                        placeholder="6-digit OTP"
+                        placeholder="example@mail.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-white">Password</label>
+                      <input
+                        type="password"
+                        className="w-full p-2 border rounded bg-white bg-opacity-10 text-white placeholder-gray-300"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        placeholder="Enter password"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition-colors"
+                      className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition-colors"
                       disabled={loading}
                     >
-                      {loading ? "Verifying..." : "Verify OTP"}
+                      {loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
+                    </button>
+                    <button
+                      type="button"
+                      className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 transition-colors"
+                      onClick={() => setIsSignUp(null)}
+                    >
+                      Back
                     </button>
                   </form>
                 )}
-                <div id="recaptcha-container"></div>
               </div>
             </div>
           </div>

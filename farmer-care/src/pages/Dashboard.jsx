@@ -19,9 +19,7 @@ function Dashboard() {
                 const { latitude, longitude } = position.coords;
                 try {
                     const data = await fetchWeatherByCoords(latitude, longitude);
-                    if (data) {
-                        setWeather(data); 
-                    }
+                    if (data) setWeather(data);
                 } catch (err) {
                     setError("Failed to fetch weather data.");
                 } finally {
@@ -33,7 +31,7 @@ function Dashboard() {
                 setLoading(false);
             }
         );
-    }, []); 
+    }, []);
 
     const handlePrevPage = () => setCurrentPage((prev) => Math.max(0, prev - 1));
     const handleNextPage = () => setCurrentPage((prev) => Math.min(4, prev + 1));
@@ -110,6 +108,37 @@ function Dashboard() {
                             <p className="text-gray-800 font-medium">Planted: {crop.plantedDate}</p>
                         </div>
                     ))}
+                </div>
+            </div>
+
+            {/* Farming Insights Section (Reduced Size) */}
+            <div className="bg-white p-4 rounded-lg shadow mt-6">
+                <h2 className="text-lg font-semibold text-green-800 mb-3">Farming Insights</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-green-100 p-3 rounded-lg shadow-sm border border-green-300">
+                        <h3 className="text-md font-semibold text-green-900">Soil Health</h3>
+                        <p className="text-gray-800 text-sm">
+                            Regular soil testing helps determine nutrient levels and pH balance for optimal crop yield.
+                        </p>
+                    </div>
+                    <div className="bg-green-100 p-3 rounded-lg shadow-sm border border-green-300">
+                        <h3 className="text-md font-semibold text-green-900">Irrigation Management</h3>
+                        <p className="text-gray-800 text-sm">
+                            Efficient water use techniques like drip irrigation help conserve water and enhance growth.
+                        </p>
+                    </div>
+                    <div className="bg-green-100 p-3 rounded-lg shadow-sm border border-green-300">
+                        <h3 className="text-md font-semibold text-green-900">Pest Control</h3>
+                        <p className="text-gray-800 text-sm">
+                            Use natural predators, crop rotation, and organic pesticides to reduce pest damage.
+                        </p>
+                    </div>
+                    <div className="bg-green-100 p-3 rounded-lg shadow-sm border border-green-300">
+                        <h3 className="text-md font-semibold text-green-900">Market Trends</h3>
+                        <p className="text-gray-800 text-sm">
+                            Stay updated with market prices to sell your crops at the best possible rate.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
