@@ -14,15 +14,15 @@ function GovSchemes() {
         const user = auth.currentUser;
         if (!user) throw new Error("User not logged in.");
 
-        const userRef = doc(db, "farmers", user.uid); // Fixed collection name
+        const userRef = doc(db, "farmers", user.uid);
         const userSnap = await getDoc(userRef);
         if (!userSnap.exists()) throw new Error("User profile not found.");
 
         const userInfo = userSnap.data();
-        console.log("User data:", userInfo); // Debugging log
+        console.log("User data:", userInfo); 
 
         const fetchedSchemes = await fetchSchemes(userInfo);
-        console.log("Fetched schemes:", fetchedSchemes); // Debugging log
+        console.log("Fetched schemes:", fetchedSchemes); 
 
         setSchemes(fetchedSchemes);
       } catch (err) {

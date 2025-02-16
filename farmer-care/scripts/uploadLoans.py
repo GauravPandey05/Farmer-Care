@@ -15,7 +15,7 @@ loans = [
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],  # ✅ Fixed key name
+        "applicable_states": ["All States"],
         "interest_rate": 7,
         "loan_amount": 500000,
         "subsidy_available": True
@@ -33,63 +33,159 @@ loans = [
         "subsidy_available": True
     },
     {
+        "name": "Rythu Bandhu Scheme",
+        "category": "Agriculture",
+        "max_land_size": None,
+        "max_income": None,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["Telangana"],
+        "interest_rate": 0,
+        "loan_amount": 400000,
+        "subsidy_available": True
+    },
+    {
+        "name": "YSR Rythu Bharosa Scheme",
+        "category": "Agriculture",
+        "max_land_size": None,
+        "max_income": 500000,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["Andhra Pradesh"],
+        "interest_rate": 0,
+        "loan_amount": 50000,
+        "subsidy_available": True
+    },
+    {
+        "name": "Mukhyamantri Krishi Ashirwad Yojana",
+        "category": "Agriculture",
+        "max_land_size": 5,
+        "max_income": None,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["Jharkhand"],
+        "interest_rate": 0,
+        "loan_amount": 25000,
+        "subsidy_available": True
+    },
+    {
         "name": "Crop Loan",
         "category": "Agriculture",
         "max_land_size": None,
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
+        "applicable_states": ["All States"],
         "interest_rate": 2,
         "loan_amount": 300000,
         "subsidy_available": True
     },
     {
-        "name": "Farm Development Loan",
+        "name": "Mukhya Mantri Krishi Yantra Yojana",
         "category": "Agriculture",
         "max_land_size": None,
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 5,  # ✅ Set default
-        "loan_amount": 100000,  # ✅ Set default
-        "subsidy_available": False
+        "applicable_states": ["Madhya Pradesh"],
+        "interest_rate": 3,
+        "loan_amount": 500000,
+        "subsidy_available": True
     },
     {
-        "name": "Dairy Loans",
+        "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
         "category": "Agriculture",
         "max_land_size": None,
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 6,  # ✅ Set default
-        "loan_amount": 200000,  # ✅ Set default
+        "applicable_states": ["All States"],
+        "interest_rate": 1.5,
+        "loan_amount": 250000,
+        "subsidy_available": True
+    },
+    {
+        "name": "NABARD Rural Infrastructure Development Fund (RIDF)",
+        "category": "Infrastructure",
+        "max_land_size": None,
+        "max_income": None,
+        "aadhaar_needed": False,
+        "is_govt_employee": False,
+        "applicable_states": ["All States"],
+        "interest_rate": 5,
+        "loan_amount": 1000000,
         "subsidy_available": False
     },
     {
         "name": "Fisheries Loan",
-        "category": "Agriculture",
+        "category": "Fisheries",
         "max_land_size": None,
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 5,  # ✅ Set default
-        "loan_amount": 150000,  # ✅ Set default
+        "applicable_states": ["All States"],
+        "interest_rate": 5,
+        "loan_amount": 150000,
         "subsidy_available": False
     },
     {
-        "name": "Poultry & Duck Rearing Loan",
+        "name": "Prime Minister’s Employment Generation Programme (PMEGP)",
+        "category": "Rural Employment",
+        "max_land_size": None,
+        "max_income": 500000,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["All States"],
+        "interest_rate": 5,
+        "loan_amount": 1000000,
+        "subsidy_available": True
+    },
+    {
+        "name": "Atma Nirbhar Bharat Abhiyan Loan",
+        "category": "Rural Development",
+        "max_land_size": None,
+        "max_income": None,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["All States"],
+        "interest_rate": 6,
+        "loan_amount": 200000,
+        "subsidy_available": True
+    },
+    {
+        "name": "Krishi Pump Set Subsidy Scheme",
         "category": "Agriculture",
         "max_land_size": None,
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 4,  # ✅ Set default
-        "loan_amount": 250000,  # ✅ Set default
+        "applicable_states": ["Bihar"],
+        "interest_rate": 0,
+        "loan_amount": 20000,
+        "subsidy_available": True
+    },
+    {
+        "name": "Chhattisgarh Agriculture Loan Waiver Scheme",
+        "category": "Agriculture",
+        "max_land_size": None,
+        "max_income": None,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["Chhattisgarh"],
+        "interest_rate": 0,
+        "loan_amount": 100000,
+        "subsidy_available": True
+    },
+    {
+        "name": "Dairy Loans",
+        "category": "Animal Husbandry",
+        "max_land_size": None,
+        "max_income": None,
+        "aadhaar_needed": True,
+        "is_govt_employee": False,
+        "applicable_states": ["All States"],
+        "interest_rate": 6,
+        "loan_amount": 200000,
         "subsidy_available": False
     },
     {
@@ -99,45 +195,9 @@ loans = [
         "max_income": None,
         "aadhaar_needed": True,
         "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 5,  # ✅ Fixed (No strings like "85% investment")
-        "loan_amount": 85000,  # ✅ Fixed (Approximated from 85% investment)
-        "subsidy_available": False
-    },
-    {
-        "name": "Kisan Pragati Card (KPC) Crop Loan",
-        "category": "Agriculture",
-        "max_land_size": 0.5,
-        "max_income": None,
-        "aadhaar_needed": True,
-        "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 5,  # ✅ Set default
-        "loan_amount": 26000,
-        "subsidy_available": False
-    },
-    {
-        "name": "Kisan Pragati Card (KPC) Poultry",
-        "category": "Agriculture",
-        "max_land_size": 1,
-        "max_income": None,
-        "aadhaar_needed": True,
-        "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 4,  # ✅ Set default
-        "loan_amount": 2000000,
-        "subsidy_available": False
-    },
-    {
-        "name": "Kisan Pragati Card (KPC) Pisciculture",
-        "category": "Agriculture",
-        "max_land_size": 1,
-        "max_income": None,
-        "aadhaar_needed": True,
-        "is_govt_employee": False,
-        "applicable_states": ["Odisha"],
-        "interest_rate": 4,  # ✅ Set default
-        "loan_amount": 500000,
+        "applicable_states": ["All States"],
+        "interest_rate": 5,
+        "loan_amount": 85000,
         "subsidy_available": False
     }
 ]

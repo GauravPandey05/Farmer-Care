@@ -21,24 +21,24 @@ const features = [
   // },
   {
     icon: <BarChart3 className="w-8 h-8 text-green-600" />,
-    title: "Market Analysis",
-    description: "Get insights on market trends and optimal pricing"
+    title: "Real-Time Weather Updates",
+    description: "Get insights on the current and forecoming weather in your area"
   },
   {
     icon: <Leaf className="w-8 h-8 text-green-600" />,
-    title: "Sustainable Practices",
-    description: "Learn eco-friendly farming methods for better yields"
+    title: "Crop Recommendations",
+    description: "Recommends crops based on the soil type and rainfall"
   },
   {
     icon: <Shield className="w-8 h-8 text-green-600" />,
-    title: "Crop Protection",
-    description: "Early warning systems for pest and disease control"
+    title: "Easy to use and understand GUI",
+    description: "Specifically designed for Indian standards"
   },
   {
     icon: <HeartHandshake className="w-8 h-8 text-green-600" />,
     title: "Financial Support",
     description: "Access to loans and government scheme information"
-  }
+  }
 ];
 
 function LandingPage() {
@@ -68,7 +68,23 @@ function LandingPage() {
           </div>
         </div>
       </div>
-
+      {/* Video Section */}
+      <div className="bg-green-50 py-16">
+        <div className="container mx-auto px-6">
+          <h2 className="text-4xl font-bold text-center text-green-800 mb-8">See How We're Making a Difference</h2>
+          <div className="max-w-4xl mx-auto rounded-xl overflow-hidden shadow-2xl">
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe 
+                className="w-full h-[500px]"
+                src="https://www.youtube.com/embed/B0dDg5lTGcI" 
+                title="FarmerCare Impact"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Statistics and Mission Section */}
       <div className="container mx-auto px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

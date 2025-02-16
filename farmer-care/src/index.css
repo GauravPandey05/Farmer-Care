@@ -58,6 +58,15 @@ button:focus-visible {
   color: white;
 }
 
+#para{
+  font-size: 12px;
+  text-align: end;
+}
+#para a{
+  text-decoration: underline;
+  color: blue;
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
