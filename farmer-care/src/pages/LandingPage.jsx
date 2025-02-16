@@ -164,9 +164,9 @@ function LandingPage() {
               <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
               <ul className="space-y-2 text-green-200">
                 <li>Email: support@farmercare.com</li>
-                <li>Phone: +1 (555) 123-4567</li>
-                <li>Address: 123 Farming Street</li>
-                <li>Agriculture Valley, AG 12345</li>
+                <li>Phone: +91 (555) 123-4567</li>
+                <li>Address: Dwarka Mor</li>
+                <li>New Delhi</li>
                 <li>Hours: Mon-Fri 9:00 AM - 6:00 PM</li>
               </ul>
             </div>
