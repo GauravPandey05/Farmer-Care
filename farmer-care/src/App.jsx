@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import LandingPage from "./pages/LandingPage";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import LoanSchemes from "./pages/LoanSchemes";
@@ -63,15 +64,11 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            !user ? (
-              <Home />
-            ) : profileExists ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Navigate to="/profile" replace />
-            )
-          }
+          element={!user ? <LandingPage /> : profileExists ? <Navigate to="/dashboard" replace /> : <Navigate to="/profile" replace />}
+        />
+        <Route
+          path="/home"
+          element={!user ? <Home /> : profileExists ? <Navigate to="/dashboard" replace /> : <Navigate to="/profile" replace />}
         />
         <Route
           path="/dashboard"

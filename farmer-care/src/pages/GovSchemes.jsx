@@ -52,8 +52,11 @@ function GovSchemes() {
             <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold text-green-700 mb-3">{scheme.name}</h2>
               <p className="text-gray-600 mb-4">{scheme.description}</p>
-              <button className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                Apply Now
+              <button 
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                onClick={() => navigate('/home')}
+              >
+                Get Started
               </button>
             </div>
           ))}
