@@ -1,0 +1,101 @@
+Crop,Crop_Year,Season,State,Area,Production,Soil_Type,Annual_Rainfall,Fertilizer,Pesticide,Yield
+Sunflower,2018,Rabi       ,Nagaland,2320.0,1420,Black/Alluvial,1372.7,376304.0,812.0,0.614
+Small millets,2005,Kharif     ,Maharashtra,71300.0,37600,Black/Alluvial,1387.2,8550296.0,14973.0,0.495
+Mesta,2001,Kharif     ,Andhra Pradesh,78942.0,671542,Red Sandy,928.4,8062346.46,20524.92,8.370909091
+Potato,2005,Whole Year ,West Bengal,354455.0,7462464,Black/Alluvial,1650.1,42506243.6,74435.55,19.345
+Jute,2015,Kharif     ,Chhattisgarh,134.0,0,Black/Alluvial,1136.0,21159.94,44.22,0.0
+Sweet potato,2004,Whole Year ,Karnataka,3583.0,29199,Black/Alluvial,1117.7,388182.22,752.43,6.102142857
+Maize,2008,Kharif     ,Madhya Pradesh,826722.0,1131782,Red Sandy,895.0,118254314.9,74404.98,1.2356
+Rapeseed &Mustard,2015,Rabi       ,Telangana,1365.0,1665,Red Sandy,747.9,215547.15,450.45,1.023333333
+Other Kharif pulses,2009,Kharif     ,Maharashtra,109700.0,35200,Black/Alluvial,1002.4,17093454.0,18649.0,0.280967742
+Cashewnut,2016,Whole Year ,Karnataka,64072.0,36194,Black/Alluvial,1147.2,9819034.0,22425.2,0.774736842
+Other Kharif pulses,2009,Kharif     ,Karnataka,114169.0,82364,Black/Alluvial,1321.0,17789813.58,19408.73,0.6076
+Ragi,2001,Kharif     ,Uttarakhand,131779.0,161963,Black/Alluvial,1541.3,13458589.27,34262.54,1.324545455
+Bajra,2018,Kharif     ,Gujarat,163540.0,228467,Black/Alluvial,1125.4,26526188.0,57239.0,1.4812
+Sugarcane,2009,Kharif     ,Jammu and Kashmir,1.0,2,Red Sandy,751.7,155.82,0.17,1.5
+Sunflower,2015,Rabi       ,Tamil Nadu,6328.0,6014,Black/Alluvial,1201.9,999254.48,2088.24,1.042727273
+Rapeseed &Mustard,2014,Rabi       ,Chhattisgarh,46564.0,24586,Black/Alluvial,1274.7,7029301.44,15366.12,0.51037037
+Gram,2019,Rabi       ,Jharkhand,230073.0,275506,Black/Alluvial,1137.8,39517338.48,85127.01,1.2225
+Banana,2013,Whole Year ,Tamil Nadu,92463.0,3840375,Red Sandy,740.9,13359978.87,24965.01,42.13096774
+Rice,2006,Summer     ,West Bengal,1401233.0,4520656,Black/Alluvial,1631.4,178951466.4,308271.26,3.028888889
+Bajra,2011,Kharif     ,Karnataka,281701.0,256072,Black/Alluvial,1178.986364,47190551.52,92961.33,0.802352941
+Maize,2017,Kharif     ,Haryana,6600.0,20600,Arid/Desert,417.1,1039104.0,2508.0,2.711
+Rice,2010,Autumn     ,Assam,307988.0,355825,Laterite/Alluvial,2578.5,51159886.68,73917.12,1.272592593
+Gram,2000,Rabi       ,Assam,2661.0,1329,Black/Alluvial,1965.5,261230.37,691.86,0.462380952
+Arhar/Tur,2001,Kharif     ,Madhya Pradesh,301498.0,246625,Red Sandy,955.0,30791990.74,78389.48,0.793555556
+Rice,2007,Summer     ,Odisha,334000.0,816000,Black/Alluvial,1633.8,44555600.0,53440.0,2.108928571
+Masoor,1999,Kharif     ,Himachal Pradesh,1061.0,440,Black/Alluvial,1144.9,112603.93,286.47,0.41
+Other Cereals,2004,Rabi       ,Sikkim,2010.0,1560,Black/Alluvial,1650.5,217763.4,422.1,0.745
+Coriander,2013,Whole Year ,Tamil Nadu,7527.0,2614,Red Sandy,740.9,1087576.23,2032.29,0.349166667
+Rice,2012,Kharif     ,Mizoram,14330.0,29983,Laterite/Alluvial,2050.2,2160964.0,4442.3,2.2925
+Moong(Green Gram),1999,Kharif     ,Andhra Pradesh,320634.0,174742,Red Sandy,650.4,34028886.42,86571.18,0.626818182
+Wheat,2000,Rabi       ,Sikkim,7215.0,10103,Laterite/Alluvial,2504.8,708296.55,1875.9,1.3725
+Coriander,2008,Whole Year ,Haryana,398.0,800,Red Sandy,715.6,56929.92,35.82,0.28625
+Rice,2013,Kharif     ,Puducherry,3671.0,12091,Black/Alluvial,1083.2,530422.79,991.17,2.696666667
+Wheat,1997,Rabi       ,Punjab,3300000.0,12715000,Red Sandy,690.1,314061000.0,1023000.0,3.781176471
+Masoor,2000,Rabi       ,Mizoram,10.0,8,Laterite/Alluvial,2834.3,981.7,2.6,0.8
+Cashewnut,2016,Kharif     ,Puducherry,148.0,51,Black/Alluvial,1391.3,22681.0,51.8,0.446666667
+Soyabean,2014,Kharif     ,Himachal Pradesh,633.0,934,Black/Alluvial,1019.9,95557.68,208.89,1.288571429
+Urad,2017,Summer     ,Karnataka,992.0,523,Black/Alluvial,1111.7,156180.48,376.96,0.48875
+Onion,2016,Whole Year ,Kerala,31.0,0,Laterite/Alluvial,2924.3,4750.75,10.85,0.0
+Small millets,2014,Whole Year ,Kerala,27.0,21,Laterite/Alluvial,3046.4,4075.92,8.91,0.78
+Sesamum,2011,Kharif     ,Meghalaya,1592.0,867,Laterite/Alluvial,4083.104545,266691.84,525.36,0.598333333
+Masoor,2009,Rabi       ,Punjab,1100.0,700,Arid/Desert,371.3,171402.0,187.0,0.734
+Linseed,2008,Rabi       ,Karnataka,13549.0,5112,Black/Alluvial,1164.1,1938048.96,1219.41,0.4
+Cotton(lint),2008,Kharif     ,Haryana,456086.0,1862000,Red Sandy,715.6,65238541.44,41047.74,1.7835
+Rice,2010,Summer     ,Karnataka,360062.0,1163725,Black/Alluvial,1317.7,59809898.82,86414.88,2.935714286
+Urad,2005,Kharif     ,Uttarakhand,10688.0,5771,Black/Alluvial,1353.3,1281704.96,2244.48,0.550769231
+Potato,2016,Kharif     ,Uttarakhand,6583.0,55540,Black/Alluvial,1580.9,1008844.75,2304.05,9.679090909
+Sugarcane,2008,Whole Year ,Tamil Nadu,308800.0,32798888,Black/Alluvial,1201.9,44170752.0,27792.0,111.4553333
+Ginger,2012,Whole Year ,Arunachal Pradesh,6847.0,56004,Laterite/Alluvial,2760.7,1032527.6,2122.57,6.931875
+Rice,2017,Rabi       ,Puducherry,8749.0,25188,Black/Alluvial,1582.4,1377442.56,3324.62,3.27
+Sesamum,2017,Kharif     ,Karnataka,35612.0,31244,Black/Alluvial,1111.7,5606753.28,13532.56,0.915862069
+Sunflower,2010,Whole Year ,Andhra Pradesh,225361.0,156170,Black/Alluvial,1297.0,37434715.71,54086.64,1.032272727
+Potato,2014,Rabi       ,Uttarakhand,5262.0,50495,Black/Alluvial,1287.4,794351.52,1736.46,10.41461538
+Banana,1998,Summer     ,Manipur,20.0,260,Black/Alluvial,1855.0,1976.0,5.8,13.0
+Cotton(lint),2017,Kharif     ,Puducherry,154.0,164,Black/Alluvial,1582.4,24245.76,58.52,1.42
+Urad,2013,Kharif     ,Telangana,32090.0,26377,Black/Alluvial,1348.7,4636684.1,8664.3,0.83125
+Black pepper,2008,Whole Year ,Assam,3393.0,5144,Laterite/Alluvial,2109.9,485334.72,305.37,1.680384615
+Wheat,2003,Rabi       ,Uttarakhand,383387.0,729653,Black/Alluvial,1734.3,37947645.26,92012.88,1.525384615
+Horse-gram,2001,Kharif     ,Odisha,91171.0,28017,Black/Alluvial,1672.5,9311294.23,23704.46,0.315172414
+Urad,2005,Kharif     ,Madhya Pradesh,480712.0,170034,Black/Alluvial,1032.7,57646983.04,100949.52,0.334166667
+Soyabean,2016,Kharif     ,Chhattisgarh,96241.0,76127,Black/Alluvial,1298.9,14748933.25,33684.35,1.375333333
+Other  Rabi pulses,2019,Rabi       ,Bihar,1091.0,1096,Black/Alluvial,1194.7,187390.16,403.67,1.002307692
+Sunflower,2001,Kharif     ,Andhra Pradesh,267613.0,219397,Red Sandy,928.4,27331315.69,69579.38,0.986111111
+Jowar,1998,Kharif     ,Haryana,129910.0,25000,Red Sandy,687.6,12835108.0,37673.9,0.101666667
+Jowar,2016,Rabi       ,Telangana,27810.0,33101,Red Sandy,942.6,4261882.5,9733.5,1.1768
+Moong(Green Gram),2018,Rabi       ,Punjab,16300.0,14100,Red Sandy,585.5,2643860.0,5705.0,0.853181818
+Soyabean,2007,Kharif     ,Madhya Pradesh,5187928.0,5359130,Red Sandy,740.4,692069595.2,830068.48,0.857708333
+Dry chillies,2001,Whole Year ,Haryana,1933.0,2200,Arid/Desert,483.8,197417.29,502.58,0.806111111
+Sugarcane,2003,Whole Year ,Manipur,330.0,10780,Red Sandy,687.7,32663.4,79.2,32.71
+Potato,2018,Rabi       ,Himachal Pradesh,7029.0,72777,Black/Alluvial,1052.2,1140103.8,2460.15,9.303333333
+Masoor,2014,Rabi       ,Punjab,800.0,470,Arid/Desert,382.7,120768.0,264.0,0.575
+Horse-gram,2014,Rabi       ,Tamil Nadu,78131.0,57707,Red Sandy,911.3,11794655.76,25783.23,0.735833333
+Potato,2004,Whole Year ,Gujarat,39300.0,1086400,Red Sandy,719.8,4257762.0,8253.0,26.09666667
+Wheat,2019,Rabi       ,Chhattisgarh,116274.0,135888,Black/Alluvial,1420.3,19971222.24,43021.38,1.336538462
+Barley,2002,Rabi       ,Nagaland,5000.0,9500,Black/Alluvial,1536.6,473350.0,1250.0,1.90625
+Cashewnut,2015,Kharif     ,Puducherry,143.0,44,Black/Alluvial,1980.6,22581.13,47.19,0.433333333
+Maize,2014,Rabi       ,Uttar Pradesh,10653.0,25493,Red Sandy,616.4,1608176.88,3515.49,2.444166667
+Safflower,2016,Rabi       ,Madhya Pradesh,29480.0,14770,Black/Alluvial,1048.4,4517810.0,10318.0,0.666666667
+Rapeseed &Mustard,2001,Rabi       ,Sikkim,5800.0,3791,Laterite/Alluvial,2372.5,592354.0,1508.0,0.6075
+Urad,2012,Rabi       ,Chhattisgarh,3385.0,850,Black/Alluvial,1366.8,510458.0,1049.35,0.285
+Sugarcane,2017,Whole Year ,Himachal Pradesh,1874.0,36730,Black/Alluvial,1182.2,295042.56,712.12,17.11714286
+Safflower,2017,Rabi       ,Madhya Pradesh,1010.0,500,Red Sandy,800.0,159014.4,383.8,0.653333333
+Masoor,2012,Rabi       ,Jammu and Kashmir,141.0,79,Black/Alluvial,1116.7,21262.8,43.71,0.5525
+Cowpea(Lobia),2018,Rabi       ,Andhra Pradesh,13621.0,6960,Black/Alluvial,1220.5,2209326.2,4767.35,0.53
+Gram,2009,Rabi       ,Gujarat,132200.0,124900,Red Sandy,618.0,20599404.0,22474.0,0.9432
+Rice,2004,Kharif     ,Haryana,1024236.0,3010000,Arid/Desert,484.6,110965728.2,215089.56,2.832777778
+Potato,2000,Kharif     ,Uttarakhand,6286.0,138309,Black/Alluvial,1413.4,617096.62,1634.36,21.66555556
+Sesamum,2016,Winter     ,Odisha,11000.0,3429,Black/Alluvial,1460.5,1685750.0,3850.0,0.2825
+Cowpea(Lobia),2012,Kharif     ,Mizoram,938.0,906,Laterite/Alluvial,2050.2,141450.4,290.78,0.8
+Urad,2018,Kharif     ,West Bengal,66685.0,43811,Laterite/Alluvial,2012.6,10816307.0,23339.75,0.5755
+Banana,2016,Whole Year ,Tamil Nadu,90993.0,3028869,Red Sandy,912.4,13944677.25,31847.55,33.24096774
+Niger seed,2006,Kharif     ,Chhattisgarh,72788.0,12791,Black/Alluvial,1317.2,9295755.48,16013.36,0.153125
+Groundnut,2003,Summer     ,West Bengal,34891.0,59508,Black/Alluvial,1526.7,3453511.18,8373.84,1.330625
+other oilseeds,2007,Kharif     ,Mizoram,3398.0,702,Laterite/Alluvial,3095.2,453293.2,543.68,0.2225
+Tapioca,2015,Rabi       ,Andhra Pradesh,61.0,763,Red Sandy,940.7,9632.51,20.13,11.06
+Rice,2017,Rabi       ,Mizoram,487.0,998,Laterite/Alluvial,3865.8,76673.28,185.06,2.09
+Sesamum,2011,Kharif     ,Maharashtra,42300.0,14210,Black/Alluvial,1174.095455,7086096.0,13959.0,0.386451613
+Tapioca,1997,Whole Year ,Assam,2465.0,11728,Laterite/Alluvial,2051.4,234594.05,764.15,4.41826087
+Guar seed,2009,Kharif     ,Uttar Pradesh,2539.0,2120,Red Sandy,585.8,395626.98,431.63,0.841111111
+Ragi,2008,Rabi       ,Puducherry,4.0,9,Black/Alluvial,1434.5875,572.16,0.36,2.25

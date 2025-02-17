@@ -41,16 +41,17 @@ function LoanSchemes() {
       const loanData = loan.data();
       loanData.id = loan.id; // Ensure each loan has a unique ID
 
+      // Updated condition to handle "All States"
       if (
         (loanData.max_land_size && userData.land_size > loanData.max_land_size) ||
         (loanData.max_income && userData.income > loanData.max_income) ||
         (loanData.aadhaar_needed && !userData.aadhaar_available) ||
         (loanData.is_govt_employee && userData.is_govt_employee) ||
         (loanData.applicable_states &&
-          !loanData.applicable_states.includes(userData.state) &&
-          !loanData.applicable_states.includes("All States"))
+          !loanData.applicable_states.includes("All States") && // "All States" condition
+          !loanData.applicable_states.includes(userData.state)) // User state check
       ) {
-        return;
+        return; // Skip the loan if it doesn't meet criteria
       }
 
       const profitabilityScore =
@@ -61,14 +62,17 @@ function LoanSchemes() {
       applicableLoans.push({ ...loanData, profitability_score: profitabilityScore });
     });
 
+    // Sort loans based on profitability score
     applicableLoans.sort((a, b) => b.profitability_score - a.profitability_score);
-    setLoans([...applicableLoans]); // Ensure React updates the state properly
+
+    // Set loans to state after sorting
+    setLoans(applicableLoans);
   };
 
   if (loading) return <h2 className="text-center text-2xl font-semibold text-green-600">Loading...</h2>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-white">
       <h1 className="text-3xl font-bold text-green-600 mb-8">Loan Schemes</h1>
 
       {loans.length > 0 ? (

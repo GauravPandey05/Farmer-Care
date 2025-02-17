@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaHome, FaLeaf, FaMoneyBill, FaLandmark, FaUser, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
+import { FaHome, FaLeaf, FaMoneyBill, FaLandmark, FaUser, FaSignOutAlt, FaBars, FaTimes, FaTools } from "react-icons/fa";
 
 function Navbar({ onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +32,9 @@ function Navbar({ onLogout }) {
             </Link>
             <Link to="/gov-schemes" className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
               <FaLandmark /> Schemes
+            </Link>
+            <Link to="/udhaar" className="flex items-center gap-2 bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-600">
+              <FaTools /> UDHAAR
             </Link>
             <Link to="/profile" className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800">
               <FaUser /> Profile
@@ -75,6 +78,13 @@ function Navbar({ onLogout }) {
               onClick={() => setIsOpen(false)}
             >
               <FaLandmark /> Schemes
+            </Link>
+            <Link 
+              to="/udhaar" 
+              className="flex items-center gap-2 bg-yellow-500 text-black px-4 py-2 rounded-lg hover:bg-yellow-600"
+              onClick={() => setIsOpen(false)}
+            >
+              <FaTools /> UDHAAR
             </Link>
             <Link 
               to="/profile" 

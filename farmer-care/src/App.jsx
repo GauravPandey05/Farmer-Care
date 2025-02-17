@@ -12,6 +12,7 @@ import LoanSchemes from "./pages/LoanSchemes";
 import CropRecommendations from "./pages/CropRecommendations";
 import GovSchemes from "./pages/GovSchemes";
 import Profile from "./Profile";
+import Udhaar from "./pages/udhaar/Udhaar";
 import "./index.css";
 
 function App() {
@@ -89,6 +90,11 @@ function App() {
         <Route
           path="/gov-schemes"
           element={user && profileExists ? <GovSchemes /> : <Navigate to="/" replace />}
+        />
+        {/* ✅ Added Udhaar Route */}
+        <Route
+          path="/udhaar/*"
+          element={user && profileExists ? <Udhaar /> : <Navigate to="/" replace />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

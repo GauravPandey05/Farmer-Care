@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import Papa from "papaparse";
 
 function CropRecommendations() {
@@ -8,27 +8,19 @@ function CropRecommendations() {
   const [soilTypes, setSoilTypes] = useState([]);
 
   useEffect(() => {
-    fetch("/cropproduction.csv")
+    fetch("/crop_yield_100.csv")
       .then(response => response.text())
       .then(csvText => {
         Papa.parse(csvText, {
           header: true,
           dynamicTyping: true,
           complete: (result) => {
-            console.log("CSV Data Loaded:", result.data); 
+            console.log("CSV Data Loaded:", result.data);
             if (result.data.length > 0) {
               setCrops(result.data);
-              const firstRow = result.data[0];
-              console.log("First Row Keys:", Object.keys(firstRow)); 
-
               
-              const soilColumn = Object.keys(firstRow).find(key => key.toLowerCase().includes("soil"));
-              if (!soilColumn) {
-                console.error("Error: Soil Type column not found in CSV");
-                return;
-              }
-
-              const uniqueSoils = [...new Set(result.data.map(crop => crop[soilColumn]).filter(Boolean))];
+              // Extract unique soil types correctly
+              const uniqueSoils = [...new Set(result.data.map(crop => crop["Soil_Type"]).filter(Boolean))];
               setSoilTypes(uniqueSoils);
             }
           },
@@ -40,9 +32,10 @@ function CropRecommendations() {
   const handleFilter = () => {
     const { soil, rainfall } = conditions;
     const filtered = crops.filter(crop =>
-      (!soil || crop["Soil Type"] === soil) &&
-      (!rainfall || (crop["Minimum Rainfall"] >= parseInt(rainfall)))
+      (!soil || crop["Soil_Type"] === soil) &&
+      (!rainfall || (crop["Annual_Rainfall"] >= parseFloat(rainfall)))
     );
+    console.log("Filtered Crops:", filtered); // Debugging Log
     setFilteredCrops(filtered);
   };
 
@@ -95,16 +88,23 @@ function CropRecommendations() {
       <div className="mt-6 w-full max-w-md">
         {filteredCrops.length > 0 ? (
           <ul className="space-y-2">
-            {filteredCrops.map((crop, index) => (
-              <li key={index} className="p-4 bg-white shadow-md rounded-lg border">
-                <strong>{crop.Crop}</strong> - Suitable for {crop["Soil Type"]}, Rainfall: {crop["Minimum Rainfall"]}mm
-              </li>
-            ))}
+            {filteredCrops.map((crop, index) => {
+              console.log("Rendering Crop:", crop); // Debugging Log
+              return (
+                <li key={index} className="p-4 bg-gray-200 shadow-md rounded-lg border">
+                  <strong className="text-black">{crop?.Crop || "Unknown Crop"}</strong> 
+                  <p className="text-black">Soil Type: {crop?.Soil_Type || "N/A"}</p>
+                  <p className="text-black">Rainfall: {crop?.Annual_Rainfall ? `${crop.Annual_Rainfall} mm` : "N/A"}</p>
+                  <p className="text-black">Yield: {crop?.Yield || "N/A"}</p>
+                </li>
+              );
+            })}
           </ul>
         ) : (
           <p className="text-gray-600 mt-4">No crops match your criteria.</p>
         )}
       </div>
+
     </div>
   );
 }
