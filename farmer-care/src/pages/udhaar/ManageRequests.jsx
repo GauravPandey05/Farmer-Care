@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { db, auth } from "../../firebase";
-import { collection, getDocs, updateDoc, doc, query, where, getDoc } from "firebase/firestore";
+import { 
+  collection, 
+  getDocs, 
+  updateDoc, 
+  doc, 
+  query, 
+  where, 
+  getDoc 
+} from "firebase/firestore";
 import ToolCard from "./ToolCard";
 
 function ManageRequests() {
@@ -13,9 +21,24 @@ function ManageRequests() {
     const fetchRequests = async () => {
       if (!user) return;
 
-      const q = query(collection(db, "borrowRequests"), where("lenderId", "==", user.uid));
-      const requestsSnapshot = await getDocs(q);
-      let fetchedRequests = requestsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      // ✅ Fetch requests where user is the lender
+      const lenderQuery = query(
+        collection(db, "borrowRequests"), 
+        where("lenderId", "==", user.uid)
+      );
+      const lenderSnapshot = await getDocs(lenderQuery);
+      const lenderRequests = lenderSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      // ✅ Fetch requests where user is the borrower
+      const borrowerQuery = query(
+        collection(db, "borrowRequests"), 
+        where("borrowerId", "==", user.uid)
+      );
+      const borrowerSnapshot = await getDocs(borrowerQuery);
+      const borrowerRequests = borrowerSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      // ✅ Combine both lender and borrower requests
+      let fetchedRequests = [...lenderRequests, ...borrowerRequests];
 
       // Fetch tools to verify they exist
       const toolsSnapshot = await getDocs(collection(db, "tools"));
@@ -88,7 +111,7 @@ function ManageRequests() {
             </div>
           ))
         ) : (
-          <p className="text-gray-500 text-center">No pending requests.</p>
+          <p className="text-gray-500 text-center">No requests found.</p>
         )}
       </div>
     </div>
