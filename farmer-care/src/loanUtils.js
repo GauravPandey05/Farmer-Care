@@ -3,80 +3,70 @@ import { collection, getDocs } from "firebase/firestore";
 
 export async function fetchLoans(userInput) {
   try {
-    const loansRef = collection(db, "loans");
-    const querySnapshot = await getDocs(loansRef);
-    let applicableLoans = [];
+    console.log("fetchLoans called with input:", userInput);
 
-    // Convert income and landSize to numbers for correct comparison
-    const userIncome = parseFloat(userInput.income);
-    const userLandSize = parseFloat(userInput.landSize);
+    const userIncome = parseFloat(userInput.income) || 0;
+    const userLandSize = parseFloat(userInput.landSize) || 0;
+    const userState = userInput.state.trim().toLowerCase();
+    
+    console.log("Converted Income:", userIncome, "Converted Land Size:", userLandSize);
+    console.log("User State:", userState);
 
     if (isNaN(userIncome) || isNaN(userLandSize)) {
       console.error("Invalid input: income and land size must be numbers");
       return [];
     }
 
+    const loansRef = collection(db, "loans");
+    const querySnapshot = await getDocs(loansRef);
+    console.log(`Total loans fetched: ${querySnapshot.size}`);
+
+    let applicableLoans = [];
+
     querySnapshot.forEach((doc) => {
       const loanData = doc.data();
+      console.log(`Checking loan: ${loanData.name}`, loanData);
 
-      console.log(`Checking loan: ${loanData.name}`);
-
-      // Land size restriction
-      if (loanData.max_land_size != null && userLandSize > loanData.max_land_size) {
-        console.log(`Skipping ${loanData.name}: Land size exceeds ${loanData.max_land_size}`);
-        return;
-      }
-
-      // Income restriction
+      // ✅ Income Check: Ensure userIncome is within the limit
       if (loanData.max_income != null && userIncome > loanData.max_income) {
-        console.log(`Skipping ${loanData.name}: Income exceeds ${loanData.max_income}`);
+        console.warn(`SKIPPED ${loanData.name}: Income (${userIncome}) exceeds max income (${loanData.max_income})`);
         return;
       }
 
-      // Aadhaar requirement (if the loan needs Aadhaar but the user doesn't have it)
-      if (loanData.aadhaar_needed && !userInput.aadhaar_available) {
-        console.log(`Skipping ${loanData.name}: Aadhaar required but not available`);
+      // ✅ Land Size Check
+      if (loanData.max_land_size != null && userLandSize > loanData.max_land_size) {
+        console.warn(`SKIPPED ${loanData.name}: Land size (${userLandSize}) exceeds max (${loanData.max_land_size})`);
         return;
       }
 
-      // Government employee restriction (if loan is for government employees)
-      if (loanData.is_govt_employee && !userInput.isGovtEmployee) {
-        console.log(`Skipping ${loanData.name}: Loan available only for govt employees`);
+      // ✅ Aadhaar Requirement
+      if (loanData.aadhaar_needed && !userInput.aadhaarAvailable) {
+        console.warn(`SKIPPED ${loanData.name}: Aadhaar required but not available`);
         return;
       }
 
-      // State eligibility (handling "All States" as a valid condition)
+      // ✅ Government Employee Restriction
+      if (loanData.is_govt_employee && userInput.isGovtEmployee !== true) {
+        console.warn(`SKIPPED ${loanData.name}: Only for government employees`);
+        return;
+      }
+
+      // ✅ State Eligibility Check
       if (
         loanData.applicable_states &&
         Array.isArray(loanData.applicable_states) &&
-        !loanData.applicable_states.includes("All States") &&
-        !loanData.applicable_states.includes(userInput.state)
+        !loanData.applicable_states.map(state => state.toLowerCase()).includes("all states") &&
+        !loanData.applicable_states.map(state => state.toLowerCase()).includes(userState)
       ) {
-        console.log(`Skipping ${loanData.name}: Not available in ${userInput.state}`);
+        console.warn(`SKIPPED ${loanData.name}: Not available in ${userInput.state}`);
         return;
       }
 
-      // Calculate profitability score (optional but useful for ranking)
-      const profitabilityScore =
-        loanData.interest_rate > 0
-          ? loanData.loan_amount / loanData.interest_rate
-          : loanData.loan_amount;
-
-      // Add profitability score and loan to the list
-      applicableLoans.push({
-        ...loanData,
-        profitability_score: profitabilityScore,
-      });
+      console.log(`✅ ${loanData.name} is applicable!`);
+      applicableLoans.push(loanData);
     });
 
-    // Sort loans based on profitability score (descending order)
-    applicableLoans.sort((a, b) => b.profitability_score - a.profitability_score);
-
-    if (applicableLoans.length === 0) {
-      console.log("No loans found matching your criteria.");
-    }
-
-    console.log(`Applicable Loans: ${JSON.stringify(applicableLoans)}`);
+    console.log("Final Applicable Loans:", applicableLoans);
     return applicableLoans;
   } catch (error) {
     console.error("Error fetching loans:", error);

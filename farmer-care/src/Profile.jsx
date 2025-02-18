@@ -25,6 +25,7 @@ const Profile = ({ user }) => {
     aadhaarNumber: "",
     isGovtEmployee: false,
     state: "",
+    contactNumber: ""
   });
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,8 @@ const Profile = ({ user }) => {
         if (docSnap.exists()) {
           setFormData(prev => ({
             ...prev,
-            ...docSnap.data()
+            ...docSnap.data(),
+            contactNumber: docSnap.data().contactNumber || ""
           }));
         }
       } catch (error) {
@@ -58,6 +60,8 @@ const Profile = ({ user }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (name === "aadhaarNumber" && !/^\d{0,12}$/.test(value)) return;
+    if (name === "contactNumber" && !/^\d{0,10}$/.test(value)) return; 
+
 
     setFormData((prev) => ({
       ...prev,
@@ -140,6 +144,17 @@ const Profile = ({ user }) => {
               </option>
             ))}
           </select>
+
+          <input 
+            type="text" 
+            name="contactNumber" 
+            placeholder="Enter contact number" 
+            className="border border-gray-400 p-2 rounded w-full focus:ring-2 focus:ring-green-500 placeholder-gray-500 text-black bg-white" 
+            value={formData.contactNumber} 
+            onChange={handleChange} 
+            required 
+          />
+
 
           <div className="flex items-center space-x-2">
             <input type="checkbox" name="aadhaarAvailable" checked={formData.aadhaarAvailable} onChange={handleChange} className="w-5 h-5 accent-green-600" />

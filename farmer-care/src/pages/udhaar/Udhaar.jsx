@@ -5,6 +5,8 @@ import AvailableTools from "./AvailableTools";
 import ManageRequests from "./ManageRequests";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import "./index.css";
+
 
 function Udhaar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -17,11 +19,8 @@ function Udhaar() {
         id: doc.id,
         ...doc.data(),
       }));
-
-      // Randomly select up to 3 tools
       setFeaturedTools(allTools.slice(0, 3));
     };
-
     fetchFeaturedTools();
   }, []);
 

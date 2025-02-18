@@ -30,9 +30,9 @@ const features = [
     description: "Recommends crops based on the soil type and rainfall"
   },
   {
-    icon: <Shield className="w-8 h-8 text-green-600" />,
-    title: "Easy to use and understand GUI",
-    description: "Specifically designed for Indian standards"
+    icon: <Users className="w-8 h-8 text-green-600" />,
+    title: "Community Section",
+    description: "We provide a platform for small-scale & large-scale farmers to connect with each other"
   },
   {
     icon: <HeartHandshake className="w-8 h-8 text-green-600" />,
@@ -45,26 +45,36 @@ function LandingPage() {
   const navigate= useNavigate();  
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div 
-        className="relative h-[600px] bg-cover bg-center"
-        style={{ 
-          backgroundImage: 'url("https://in.nec.com/en_IN/blog/2020/images/20200801_og.png")',
-          backgroundBlendMode: 'overlay',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)'
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-green-900/70 to-green-600/50" />
-        <div className="relative container mx-auto px-6 h-full flex items-center">
-          <div className="text-white max-w-2xl">
-            <h1 className="text-5xl font-bold mb-6">Empowering Farmers Through Technology</h1>
-            <p className="text-xl mb-8">Transform your farming practices with FarmerCare's innovative solutions</p>
-            <button 
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-              onClick={() => navigate('/home')}
-            >
-              Get Started
-            </button>
+      {/* 3D Animated Intro Section */}
+      <div className="relative h-[85vh] bg-gradient-to-b from-green-900 to-green-600 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.iotm2mcouncil.org/wp-content/uploads/2021/03/marblog2.jpg')] bg-cover bg-center opacity-25"></div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center space-y-8 animate-float">
+            <h1 className="text-7xl font-bold text-white mb-6 tracking-tight animate-title">
+              <span className="inline-block animate-slideDown">Farmer</span>
+              <span className="inline-block text-green-300 animate-slideUp">Care</span>
+            </h1>
+            <p className="text-2xl text-green-100 max-w-2xl mx-auto leading-relaxed animate-fadeIn">
+              Empowering farmers with innovative solutions for a sustainable future
+            </p>
+            <div className="flex justify-center gap-6 animate-fadeIn">
+              <button className="px-8 py-3 bg-white text-green-700 rounded-full font-semibold hover:bg-green-50 transform hover:scale-105 transition-all shadow-lg"
+              onClick={() => navigate('/home')}>
+                Get Started
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* Animated floating elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="animate-float-slow absolute top-1/4 left-1/4 text-white/20">
+            <Sprout className="w-24 h-24" />
+          </div>
+          <div className="animate-float-slower absolute top-1/3 right-1/4 text-white/20">
+            <Leaf className="w-32 h-32" />
+          </div>
+          <div className="animate-float-slowest absolute bottom-1/4 left-1/3 text-white/20">
+            <Shield className="w-20 h-20" />
           </div>
         </div>
       </div>
@@ -104,6 +114,8 @@ function LandingPage() {
                 </div>
               ))}
               <p id = "para">[Data verified by <a href='https://sansad.in/getFile/loksabhaquestions/annex/174/AU277.pdf?source=pqals#:~:text=The%20Statement%20reveals%20that%20about,47000%2F%2D%20(approx.).'>National survey 2022-2023</a> & <a href='https://www.mospi.gov.in/national-sample-survey-officensso'>NSSO Survey(2019)]</a></p>
+              <br></br>
+              <p id="dyk">DO YOU KNOW ?</p><p id="abc">70% of India's food production comes from small-scale farmers which very usually are Non-Machinery farmers</p>
             </div>
           </div>
 
@@ -145,57 +157,7 @@ function LandingPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-green-900 text-white py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-green-200">
-                <li className="hover:text-white cursor-pointer">About Us</li>
-                <li className="hover:text-white cursor-pointer">Services</li>
-                <li className="hover:text-white cursor-pointer">Blog</li>
-                <li className="hover:text-white cursor-pointer">Careers</li>
-                <li className="hover:text-white cursor-pointer">FAQ</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-              <ul className="space-y-2 text-green-200">
-                <li>Email: support@farmercare.com</li>
-                <li>Phone: +91 (555) 123-4567</li>
-                <li>Address: Dwarka Mor</li>
-                <li>New Delhi</li>
-                <li>Hours: Mon-Fri 9:00 AM - 6:00 PM</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <a href="#" className="text-green-200 hover:text-white">
-                  <Facebook className="w-6 h-6" />
-                </a>
-                <a href="#" className="text-green-200 hover:text-white">
-                  <Twitter className="w-6 h-6" />
-                </a>
-                <a href="#" className="text-green-200 hover:text-white">
-                  <Instagram className="w-6 h-6" />
-                </a>
-                <a href="#" className="text-green-200 hover:text-white">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-              </div>
-              <p className="mt-4 text-green-200">
-                Stay connected with us on social media for the latest updates and farming tips.
-              </p>
-            </div>
-          </div>
-          <div className="border-t border-green-700 mt-8 pt-8 text-center text-green-200">
-            <p>&copy; 2024 FarmerCare. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      
     </div>
   );
 }

@@ -9,8 +9,10 @@ function LoanSchemes() {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      console.log("Fetching user profile...");
       const currentUser = auth.currentUser;
       if (!currentUser) {
+        console.warn("No user found. Exiting.");
         setLoading(false);
         return;
       }
@@ -19,11 +21,13 @@ function LoanSchemes() {
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
+        console.warn("User profile not found in Firestore.");
         setLoading(false);
         return;
       }
 
       const userData = userSnap.data();
+      console.log("User profile fetched:", userData);
       setUser(userData);
       await fetchAndRankLoans(userData);
       setLoading(false);
@@ -33,39 +37,36 @@ function LoanSchemes() {
   }, []);
 
   const fetchAndRankLoans = async (userData) => {
+    console.log("Fetching loans from Firestore...");
     const loansRef = collection(db, "loans");
     const loanDocs = await getDocs(loansRef);
     let applicableLoans = [];
 
+    console.log(`Total loans fetched: ${loanDocs.size}`);
+
     loanDocs.forEach((loan) => {
       const loanData = loan.data();
-      loanData.id = loan.id; // Ensure each loan has a unique ID
+      loanData.id = loan.id;
 
-      // Updated condition to handle "All States"
+      console.log(`Checking loan: ${loanData.name}`);
+
       if (
         (loanData.max_land_size && userData.land_size > loanData.max_land_size) ||
         (loanData.max_income && userData.income > loanData.max_income) ||
         (loanData.aadhaar_needed && !userData.aadhaar_available) ||
         (loanData.is_govt_employee && userData.is_govt_employee) ||
         (loanData.applicable_states &&
-          !loanData.applicable_states.includes("All States") && // "All States" condition
-          !loanData.applicable_states.includes(userData.state)) // User state check
+          !loanData.applicable_states.includes("All States") &&
+          !loanData.applicable_states.includes(userData.state))
       ) {
-        return; // Skip the loan if it doesn't meet criteria
+        console.warn(`Skipping ${loanData.name} due to eligibility criteria.`);
+        return;
       }
 
-      const profitabilityScore =
-        loanData.interest_rate > 0
-          ? loanData.loan_amount / loanData.interest_rate
-          : Infinity;
-
-      applicableLoans.push({ ...loanData, profitability_score: profitabilityScore });
+      applicableLoans.push(loanData);
     });
 
-    // Sort loans based on profitability score
-    applicableLoans.sort((a, b) => b.profitability_score - a.profitability_score);
-
-    // Set loans to state after sorting
+    console.log("Final applicable loans:", applicableLoans);
     setLoans(applicableLoans);
   };
 
@@ -84,7 +85,6 @@ function LoanSchemes() {
               <div className="space-y-2">
                 <p><span className="font-medium">Interest Rate:</span> {loan.interest_rate ? `${loan.interest_rate}%` : "N/A"}</p>
                 <p><span className="font-medium">Maximum Amount:</span> ₹{loan.loan_amount || "N/A"}</p>
-                <p><span className="font-medium">Profitability Score:</span> {loan.profitability_score.toFixed(2)}</p>
               </div>
               <button className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                 Apply Now
