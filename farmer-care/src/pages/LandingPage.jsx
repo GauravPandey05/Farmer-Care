@@ -84,7 +84,13 @@ function LandingPage() {
           <h2 className="text-4xl font-bold text-center text-green-800 mb-8">See How We're Making a Difference</h2>
           <div className="max-w-4xl mx-auto rounded-xl overflow-hidden shadow-2xl">
             <div className="aspect-w-16 aspect-h-9">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/VGaVD9VQ6tg?si=Ol7rFkja-eSuXGoE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <iframe 
+                className="w-full h-[500px]"
+                src="https://www.youtube.com/embed/VGaVD9VQ6tg?si=Ol7rFkja-eSuXGoE" 
+                title="FarmerCare Impact"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
         </div>
